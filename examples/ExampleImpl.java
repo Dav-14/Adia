@@ -122,5 +122,13 @@ public class ExampleImpl {
                         factory.createRestrictedDomain(fievre, "Moyenne", "Haute"),
                         factory.createRestrictedDomain(hypothermie, "Oui"));
     }
+
+    public static List<Variable> getScope(List<Rule> rules){
+        HashSet<Variable> vars = new HashSet<>();
+        for (Rule rule: rules) {
+            vars.addAll(rule.getScope());
+        }
+        return new List<Variable>(vars);
+    }
     
 }
