@@ -104,4 +104,64 @@ public class Heuristics {
     public static Variable cvDomVarPlusPetit(List<Variable> variables){
         return cvDomVar(variables, false);
     }
+
+
+    private static Variable chooseVars(List<Rule> rules, boolean level){
+        HashMap<Variable,Integer> map = new HashMap<>();
+
+        for (Rule obj: rules) {
+            Set<Variable> scope = obj.getScope();
+            for (Variable var : scope){
+                map.putIfAbsent(var,1);
+                if (map.containsKey(var)){
+                    map.put(var,map.get(var)+1);
+                }
+            }
+        }
+        Variable state = null;
+        Integer comparable;
+        if (level){
+            comparable = Integer.MIN_VALUE;
+            for (Variable var: map.keySet())  {
+                if (map.get(var) >= comparable){
+                    state = var;
+                    comparable = map.get(var);
+                }
+            }
+        }else {
+            comparable = Integer.MAX_VALUE;
+            for (Variable var: map.keySet())  {
+                if (map.get(var) <= comparable){
+                    state = var;
+                    comparable = map.get(var);
+                }
+            }
+        }
+
+
+        return state;
+    }
+
+    public static Variable cHighVar(List<Rule> rules){
+        return chooseVars(rules,true);
+    }
+
+    public static Variable cLowerVar(List<Rule> rules){
+        return chooseVars(rules,false);
+    }
+
+
+    private static Variable chooseValue(List<Rule> rules, int index){
+        List<Variable> scope = ExampleImpl.getAllScope(rules);
+        if (index >= scope.size()) throw new IndexOutOfBoundsException();
+        else {
+            return scope.get(index);
+        }
+    }
+
+    public static String randomValueDomain(Variable var){
+        Set<String> domain = var.getDomain();
+        Random rand = new Random();
+        return (String) domain.toArray()[rand.nextInt(domain.size())];
+    }
 }
