@@ -1,8 +1,13 @@
 package ppc;
 
 import representations.*;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
+
+import examples.ExampleImpl;
 
 public class Heuristics {
 
