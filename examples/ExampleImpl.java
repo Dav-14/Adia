@@ -62,6 +62,14 @@ public class ExampleImpl {
         );
     }
 
+    public static List<Variable> getScope(List<Rule> rules){
+        HashSet<Variable> vars = new HashSet<>();
+        for (Rule rule: rules) {
+            vars.addAll(rule.getScope());
+        }
+        return new List<Variable>(vars);
+    }
+
     public static Rule getRule1() {
         return factory.newRuleBuilder()
                 .withPremisse(factory.createRestrictedDomain(angine, "Oui"))
