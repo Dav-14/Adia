@@ -1,7 +1,11 @@
 package ppc;
 
+import examples.ExampleImpl;
 import representations.*;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 import java.util.Set;
 
 public class Heuristics {
@@ -42,7 +46,6 @@ public class Heuristics {
     /**
      * retourne la variable contenue dans la liste de règles rules ayant la plus grande grandeur de domaine
      * @param rules
-     * @param lePlusGrand
      */
     public static Variable cvDomPlusGrand(List<Rule> rules){
         return cvDom(rules, true);
@@ -51,7 +54,6 @@ public class Heuristics {
     /**
      * retourne la variable contenue dans la liste de règles rules ayant la plus petite grandeur de domaine
      * @param rules
-     * @param lePlusGrand
      */
     public static Variable cvDomPlusPetit(List<Rule> rules){
         return cvDom(rules, false);
@@ -59,11 +61,11 @@ public class Heuristics {
 
     /**
      * retourne la variable contenue dans la liste de variables ayant la plus grande ou petite grandeur de domaine
-     * @param rules
+     * @param variables
      * @param lePlusGrand
      * @return varMinMax
      */
-    public static Variable cvDomVar(List<Variable> variables, boolean lePlusGrand){
+    private static Variable cvDomVar(List<Variable> variables, boolean lePlusGrand){
         int maxMin;
         Variable varMinMax = null;
         if(lePlusGrand = true){
@@ -89,8 +91,7 @@ public class Heuristics {
 
     /**
      * retourne la variable contenue dans la liste de règles rules ayant la plus grande grandeur de domaine
-     * @param rules
-     * @param lePlusGrand
+     * @param variables
      */
     public static Variable cvDomVarPlusGrand(List<Variable> variables){
         return cvDomVar(variables, true);
@@ -98,8 +99,7 @@ public class Heuristics {
 
     /**
      * retourne la variable contenue dans la liste de règles rules ayant la plus petite grandeur de domaine
-     * @param rules
-     * @param lePlusGrand
+     * @param variables
      */
     public static Variable cvDomVarPlusPetit(List<Variable> variables){
         return cvDomVar(variables, false);
@@ -152,7 +152,7 @@ public class Heuristics {
 
 
     private static Variable chooseValue(List<Rule> rules, int index){
-        List<Variable> scope = ExampleImpl.getAllScope(rules);
+        List<Variable> scope = ExampleImpl.getScope(rules);
         if (index >= scope.size()) throw new IndexOutOfBoundsException();
         else {
             return scope.get(index);
@@ -163,5 +163,21 @@ public class Heuristics {
         Set<String> domain = var.getDomain();
         Random rand = new Random();
         return (String) domain.toArray()[rand.nextInt(domain.size())];
+    }
+
+    /**
+     *
+     * @param var Variable where we need to select a value
+     * @param bool Higth or Lower Value
+     * @return The String value corresponding to the giver variable
+     */
+    public static String chooseValueFromDomain(Variable var, boolean bool){
+        Set<String> domain = var.getDomain();
+        assert (domain.size()>=1) : "A variable need to have a domain size bigger than 1";
+        int index = 0;
+        if (domain.size()>=2 && bool){
+            index = domain.size()-1;
+        }
+        return (String) domain.toArray()[index];
     }
 }

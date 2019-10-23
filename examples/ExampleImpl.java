@@ -1,5 +1,7 @@
 package examples;
 
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 
 import representations.Rule;
@@ -67,7 +69,7 @@ public class ExampleImpl {
         for (Rule rule: rules) {
             vars.addAll(rule.getScope());
         }
-        return new List<Variable>(vars);
+        return new ArrayList<>(vars);
     }
 
     public static Rule getRule1() {
@@ -130,5 +132,5 @@ public class ExampleImpl {
                         factory.createRestrictedDomain(fievre, "Moyenne", "Haute"),
                         factory.createRestrictedDomain(hypothermie, "Oui"));
     }
-    
+
 }
