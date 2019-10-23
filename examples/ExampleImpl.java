@@ -62,6 +62,14 @@ public class ExampleImpl {
         );
     }
 
+    public static List<Variable> getScope(List<Rule> rules){
+        HashSet<Variable> vars = new HashSet<>();
+        for (Rule rule: rules) {
+            vars.addAll(rule.getScope());
+        }
+        return new List<Variable>(vars);
+    }
+
     public static Rule getRule1() {
         return factory.newRuleBuilder()
                 .withPremisse(factory.createRestrictedDomain(angine, "Oui"))
@@ -121,14 +129,6 @@ public class ExampleImpl {
         return factory.createIncompatibilityConstraint(
                         factory.createRestrictedDomain(fievre, "Moyenne", "Haute"),
                         factory.createRestrictedDomain(hypothermie, "Oui"));
-    }
-
-    public static List<Variable> getScope(List<Rule> rules){
-        HashSet<Variable> vars = new HashSet<>();
-        for (Rule rule: rules) {
-            vars.addAll(rule.getScope());
-        }
-        return new List<Variable>(vars);
     }
     
 }

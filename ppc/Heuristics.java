@@ -1,13 +1,8 @@
 package ppc;
 
 import representations.*;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Random;
 import java.util.Set;
-
-import examples.ExampleImpl;
 
 public class Heuristics {
 
@@ -17,7 +12,7 @@ public class Heuristics {
      * @param lePlusGrand
      * @return varMinMax
      */
-    public static Variable cvDom(List<Rule> rules, boolean lePlusGrand){
+    private static Variable cvDom(List<Rule> rules, boolean lePlusGrand){
         int maxMin;
         Variable varMinMax = null;
         if(lePlusGrand = true){
@@ -111,16 +106,16 @@ public class Heuristics {
     }
 
 
-    private static Variable chooseVars(List<Rule> rules, boolean level){
+    private static Variable chooseVarsLevel(List<Rule> rules, boolean level){
         HashMap<Variable,Integer> map = new HashMap<>();
 
         for (Rule obj: rules) {
             Set<Variable> scope = obj.getScope();
             for (Variable var : scope){
-                map.putIfAbsent(var,1);
                 if (map.containsKey(var)){
                     map.put(var,map.get(var)+1);
                 }
+                map.putIfAbsent(var,1);
             }
         }
         Variable state = null;
@@ -148,11 +143,11 @@ public class Heuristics {
     }
 
     public static Variable cHighVar(List<Rule> rules){
-        return chooseVars(rules,true);
+        return chooseVarsLevel(rules,true);
     }
 
     public static Variable cLowerVar(List<Rule> rules){
-        return chooseVars(rules,false);
+        return chooseVarsLevel(rules,false);
     }
 
 
