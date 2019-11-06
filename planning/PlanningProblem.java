@@ -8,7 +8,9 @@ public class PlanningProblem {
 
     protected List<Action> actions;
 
-    public PlanningProblem() {
-
+    public PlanningProblem(State ini, List<State> fin, List<Action> act){
+        this.initial = ini;
+        this.finals = fin;
+        this.actions = act;
     }
 }

@@ -5,23 +5,22 @@ import representations.Rule;
 
 import java.util.Set;
 
-public class Action {
+public class Action{
     protected Rule rule_impl;
 
-    public Action(Set<RestrictedDomain> prem, Set<RestrictedDomain> conc) {
-
+    public Action(Set<RestrictedDomain> prem, Set<RestrictedDomain> conc){
         rule_impl = new Rule(prem, conc);
     }
 
-    public Boolean is_applicable(State state) {
-        return null;
+    //Accesseurs
+    public Rule getRuleImpl(){
+        return this.rule_impl;
     }
 
-    public Boolean satisfies(State state) {
-        return null;
-    }
+    //Méthodes
 
-    public State apply(State state) {
-        return null;
+    public State apply(Action act, State state){
+        State state2 = state;
+        if()
     }
 }
