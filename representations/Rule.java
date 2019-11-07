@@ -15,6 +15,10 @@ public class Rule implements Constraint {
         this.conclusion = conclusion;
     }
 
+    public Set<RestrictedDomain> getPremisse(){
+        return this.premisse;
+    }
+    
     @Override
     public Set<Variable> getScope() {
         // add premisse vars

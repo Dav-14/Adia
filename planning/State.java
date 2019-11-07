@@ -17,9 +17,16 @@ public class State extends HashMap<Variable,String>{
         return true;
     }
 
-    public Boolean is_applicable(Action act){
-        for(Action a: this.actions){
-            if(this.satisfies()){
+    public Boolean is_applicable(Action action){
+        for(Rule rule: action){
+            State rule_precondition;
+            for(RestrictedDomain rd: rule.getPremisse()){
+                Variable var = rd.getVariable();
+                for(String valeur: rd.getDomain()){
+                    rule_precondition.put(var,valeur);
+                }
+            }
+            if(this.satisfies(rule_precondition)){
                 return true;
             }
         }
