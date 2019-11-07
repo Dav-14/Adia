@@ -1,20 +1,20 @@
 package planning;
 
-import representations.Variable;
+import representations.*;
 
 import java.util.HashMap;
+import java.util.Map;
 
-public class State extends HashMap<Variable, String> {
-    public State(){
-    }
+public class State extends HashMap<Variable,String>{
 
-    public Boolean satisfies(State s){//partial_state == variable
-        for(Variable v: s){
-            if(!(v||)){
-                return true;
+
+    public Boolean satisfies(State partial_state){
+        for(Variable var: partial_state.keySet()){
+            if( !( this.containsKey(var) ) || partial_state.get(var)!=this.get(var) ){
+                return false;
             }
         }
-        return false;
+        return true;
     }
 
     public Boolean is_applicable(Action act){
