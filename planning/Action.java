@@ -8,7 +8,8 @@ public class Action{
     protected Set<Rule> rules_list;
 
     public Action(Set<Rule> rules_list){
-        this.rules_list = rules_list;
+        this.rules_list = rules_list; 
+
     }
 
     public Set<Rule> getRulesList(){

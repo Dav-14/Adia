@@ -3,11 +3,12 @@ package planning;
 import representations.*;
 
 import java.util.HashMap;
-import java.util.Map;
 
 public class State extends HashMap<Variable,String>{
 
-    public Boolean satisfies(State partial_state){
+    private static final long serialVersionUID = -1839145518454650115L;
+
+    public Boolean satisfies(State partial_state) {
         for(Variable var: partial_state.keySet()){
             if( !( this.containsKey(var) ) || partial_state.get(var)!=this.get(var) ){
                 return false;
@@ -28,7 +29,7 @@ public class State extends HashMap<Variable,String>{
     }
 
     public Boolean is_applicable(Action action){
-        for(Rule rule: action){
+        for(Rule rule: action.getRulesList()){
             State rule_precondition = premisseRule_to_State(rule);
             if(this.satisfies(rule_precondition)){
                 return true;
@@ -40,7 +41,7 @@ public class State extends HashMap<Variable,String>{
     public State apply(Action action){
         State state2 = this;
         if(this.is_applicable(action)){
-            for(Rule rule: action){
+            for(Rule rule: action.getRulesList()){
                 State rule_precondition = premisseRule_to_State(rule);
                 if(this.satisfies(rule_precondition)){
                     for(RestrictedDomain rd: rule.getConclusion()){
