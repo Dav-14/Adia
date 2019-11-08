@@ -1,22 +1,19 @@
 package planning;
 
-import representations.RestrictedDomain;
 import representations.Rule;
 
 import java.util.Set;
 
 public class Action{
-    protected Rule rule_impl;
+    protected Set<Rule> rules_list;
 
-    public Action(Set<RestrictedDomain> precondition, Set<RestrictedDomain> effets){
-        rule_impl = new Rule(precondition, effets);
+    public Action(Set<Rule> rules_list){
+        this.rules_list = rules_list;
     }
 
-    //Accesseurs
-    public Rule getRuleImpl(){
-        return this.rule_impl;
+    public Set<Rule> getRulesList(){
+        return this.rules_list;
     }
 
-    //Méthodes
     
 }

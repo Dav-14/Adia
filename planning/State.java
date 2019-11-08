@@ -36,17 +36,6 @@ public class State extends HashMap<Variable,String>{
         }
         return false;
     }
-
-    public static State conclusionRule_to_State(Rule rule){
-        State rule_conclusion = new State();
-        for(RestrictedDomain rd: rule.getConclusion()){
-            Variable var = rd.getVariable();
-            for(String valeur: rd.getDomain()){
-                rule_conclusion.put(var,valeur);
-            }
-        }
-        return rule_conclusion;
-    }
     
     public State apply(Action action){
         State state2 = this;
