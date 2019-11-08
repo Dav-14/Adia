@@ -18,9 +18,5 @@ public class Action{
     }
 
     //Méthodes
-    /*
-    public State apply(Action act, State state){
-        State state2 = state;
-        if()
-    }*/
+    
 }
