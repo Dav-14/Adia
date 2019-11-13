@@ -79,6 +79,11 @@ public class HealthCare {
         return medecineList;
     }
 
+    /**
+     * génère un PlanningProblem avec un état initial à la maladie et aux variables déterminées aléatoirement
+     * @param actionsPossibles
+     * @return un PlanningProblem avec un état initial aléatoire
+     */
     public static PlanningProblem generateRandomProblem(List<Action> actionsPossibles){
         State st_init = new State();
         State st_fin = new State();
@@ -86,7 +91,7 @@ public class HealthCare {
         ArrayList<Variable> dis = getAllDiseases();
         Random r1 = new Random();
         int valeurD = r1.nextInt(dis.size());
-        
+
         st_init.put(dis.get(valeurD), true);
         st_fin.put(dis.get(valeurD), false);
 

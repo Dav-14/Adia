@@ -12,6 +12,10 @@ public class Action{
 
     }
 
+    /**
+     * accesseur de la liste de règle d'une Action
+     * @return un Set<Rule>
+     */
     public Set<Rule> getRulesList(){
         return this.rules_list;
     }
