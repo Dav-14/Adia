@@ -89,7 +89,7 @@ public class HealthCare {
     }
 
     /**
-     * génère un PlanningProblem avec un état initial à la maladie et aux variables déterminées aléatoirement
+     * génère un PlanningProblem avec un état initial aléatoire (à la maladie et aux variables déterminées aléatoirement)
      * @param actionsPossibles
      * @return un PlanningProblem avec un état initial aléatoire
      */
@@ -118,9 +118,7 @@ public class HealthCare {
             sym.remove(valeurSymp2);
         }
 
-        List<State> st_fins_list = List.of(st_fin);
-
-        PlanningProblem pb = new PlanningProblem(st_init, st_fins_list, actionsPossibles);
+        PlanningProblem pb = new PlanningProblem(st_init, st_fin, actionsPossibles);
         return pb;
     }
 
