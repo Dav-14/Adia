@@ -51,6 +51,10 @@ public class HealthCare {
     private static Action SYRUP_BUTTON_MEDIUM = new Action(new HashSet(Arrays.asList(SYRUP_BUTTON_MEDIUM_r)));
     private static Action SYRUP_BUTTON_LOW = new Action(new HashSet(Arrays.asList(SYRUP_BUTTON_LOW_r)));
 
+    /**
+     * créer un médicament qui met un symptome à none et les autres symptomes sont modifiés de façon aléatoire
+     * @return une Action (un médicament)
+     */
     private static Action createMedecine(){
         List<Variable> Symtoms = getAllSymptoms();
         Random rnd = new Random();
@@ -71,7 +75,12 @@ public class HealthCare {
         return null;
     }
 
-    private static List<Action> createMedecine(int n){
+    /**
+     * créer une liste de médicament avec la fonction createMedecine()
+     * @param n
+     * @return une liste d'Action (liste de médicaments)
+     */
+    private static List<Action> createSeveralMedecines(int n){
         List<Action> medecineList = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             medecineList.add(createMedecine());
@@ -88,14 +97,14 @@ public class HealthCare {
         State st_init = new State();
         State st_fin = new State();
 
-        ArrayList<Variable> dis = getAllDiseases();
+        List<Variable> dis = getAllDiseases();
         Random r1 = new Random();
         int valeurD = r1.nextInt(dis.size());
 
         st_init.put(dis.get(valeurD), true);
         st_fin.put(dis.get(valeurD), false);
 
-        ArrayList<Variable> sym = getAllSymptoms();
+        List<Variable> sym = getAllSymptoms();
         Random r2 = new Random();
         int valeurSymp1 = r2.nextInt(sym.size());
 
