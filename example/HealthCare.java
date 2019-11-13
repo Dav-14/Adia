@@ -79,7 +79,7 @@ public class HealthCare {
         return medecineList;
     }
 
-    public static PlanningProblem generateRandomProblem(){
+    public static PlanningProblem generateRandomProblem(List<Action> actionsPossibles){
         State st_init = new State();
         State st_fin = new State();
         ArrayList<Variable> dis = getAllDiseases();
@@ -96,10 +96,12 @@ public class HealthCare {
             Random r4 = new Random();
             int valeurSympNiv = r4.nextInt(4);
             st_init.put(dis.get(valeurSymp2),((String[]) sym.get(valeurSymp2).getDomain().toArray()).get(valeurSympNiv));
+            st_fin.put(dis.get(valeurSymp2),null);
             sym.remove(valeurSymp2);
         }
         List<State> st_fins_list = List.of(st_fin);
-        PlanningProblem pb = new PlanningProblem(st_init, st_fins_list, act);
+        PlanningProblem pb = new PlanningProblem(st_init, st_fins_list, actionsPossibles);
+        return pb;
     }
 
 
