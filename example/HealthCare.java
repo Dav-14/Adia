@@ -3,6 +3,7 @@ package example;
 import examples.ExampleFactory;
 import examples.RuleBuilder;
 import planning.Action;
+import planning.PlanningProblem;
 import representations.Rule;
 import representations.Variable;
 
@@ -76,6 +77,29 @@ public class HealthCare {
             medecineList.add(createMedecine());
         }
         return medecineList;
+    }
+
+    public static PlanningProblem generateRandomProblem(){
+        State st_init = new State();
+        State st_fin = new State();
+        ArrayList<Variable> dis = getAllDiseases();
+        Random r1 = new Random();
+        int valeurD = r1.nextInt(dis.size());
+        st_init.put(dis.get(valeurD), true);
+        st_fin.put(dis.get(valeurD), false);
+        ArrayList<Variable> sym = getAllSymptoms();
+        Random r2 = new Random();
+        int valeurSymp1 = r2.nextInt(sym.size());
+        for(int i =0; i<valeurSymp1; i++){
+            Random r3 = new Random();
+            int valeurSymp2 = r3.nextInt(sym.size());
+            Random r4 = new Random();
+            int valeurSympNiv = r4.nextInt(4);
+            st_init.put(dis.get(valeurSymp2),((String[]) sym.get(valeurSymp2).getDomain().toArray()).get(valeurSympNiv));
+            sym.remove(valeurSymp2);
+        }
+        List<State> st_fins_list = List.of(st_fin);
+        PlanningProblem pb = new PlanningProblem(st_init, st_fins_list, act);
     }
 
 

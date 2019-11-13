@@ -8,9 +8,9 @@ public class State extends HashMap<Variable,String>{
 
     private static final long serialVersionUID = -1839145518454650115L;
 
-    public Boolean satisfies(State partial_state) {
+    public Boolean satisfies(State partial_state){
         for(Variable var: partial_state.keySet()){
-            if( !( this.containsKey(var) ) || partial_state.get(var)!=this.get(var) ){
+            if( !( this.containsKey(var) ) || partial_state.get(var).equals(this.get(var)) ){
                 return false;
             }
         }
