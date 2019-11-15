@@ -14,9 +14,9 @@ public class PlanningProblem {
 
     protected List<Action> possible_actions;
 
-    public PlanningProblem(State ini, State fin, List<Action> act){
+    public PlanningProblem(State ini, State goal, List<Action> act){
         this.state_init = ini;
-        this.state_goal = fin;
+        this.state_goal = goal;
         this.possible_actions = act;
     }
 
