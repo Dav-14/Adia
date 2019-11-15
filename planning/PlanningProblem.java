@@ -52,7 +52,7 @@ public class PlanningProblem {
         }
     }
 
-    public Stack<Action> bSearch(PlanningProblem problem){
+    public Stack<Action> breadthSearch(PlanningProblem problem){
         Map<State,State> father = new HashMap<State,State>();
         Map<State,Action> plan = new HashMap<State,Action>();
         List<State> closed = new ArrayList<State>();
@@ -71,7 +71,7 @@ public class PlanningProblem {
                         father.put(next, state);
                         plan.put(next, act);
                         if( next.satisfies(problem.state_goal) ){
-                            return get-bfs-plan(father, plan, next);
+                            return getBreadthSearchPlan(father, plan, next);
                         }
                         else{
                             open.add(next);
@@ -81,5 +81,14 @@ public class PlanningProblem {
             }
         }
         return null;
+    }
+
+    public Stack<Action> getBreadthSearchPlan(Map<State,State> father, Map<State,Action> actions, State goal){
+        Stack<Action> plan_d_action = new Stack<>();
+        while( !(goal == null) ){
+            plan_d_action.push(actions.get(goal));
+            goal = father.get(goal);
+        }
+        return plan_d_action;
     }
 }
