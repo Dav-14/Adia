@@ -28,13 +28,13 @@ public class FrequentItemsetMiner{
         Map<Set<Variable>,Integer> frequentItemsets = new HashMap<>();
         
         for(Map<Variable, String> transac : db.getTransactions() ) {
-            List<Set<Variable>> Patterns = new ArrayList<>();
+            List<Set<Variable>> patterns = new ArrayList<>();
             for (Variable var : db.getVars()){
                 if(transac.get(var).equals("1")){   // 
-                    addVarStep(Patterns, var);
+                    addVarStep(patterns, var);
                 }
             }
-            for(Set<Variable> ite : Patterns){
+            for(Set<Variable> ite : patterns){
                 int val = frequentItemsets.getOrDefault(ite, 0)+1;
                 frequentItemsets.put(ite,val);
             }
@@ -64,13 +64,13 @@ public class FrequentItemsetMiner{
     // A, | AB, B
     // A, AB, B |, AC, ABC, BC, C
     // ...
-    public void addVarStep(List<Set<Variable>> Pattern, Variable var){
+    public static void addVarStep(List<Set<Variable>> pattern, Variable var){
     
-        for(Set<Variable> subSet : new ArrayList<>(Pattern)){
+        for(Set<Variable> subSet : new ArrayList<>(pattern)){
             Set<Variable> newSet = new HashSet<>(subSet);
             newSet.add(var);
-            Pattern.add(newSet);
+            pattern.add(newSet);
         }
-        Pattern.add(Set.of(var));
+        pattern.add(Set.of(var));
     }
 }

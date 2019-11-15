@@ -73,8 +73,12 @@ public class Main{
             });
             System.out.print("(" + freq + ")" );
             System.out.println();
+
         
         }
+        AssociationRuleMiner testAsso = new AssociationRuleMiner( miner.frequentItemsets(1));
+        testAsso.frequentAssociationRules(2, 0).forEach( System.out::println);
+        
 
     }
 }
