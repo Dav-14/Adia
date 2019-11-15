@@ -54,9 +54,9 @@ public class PlanningProblem {
 
     public Stack<Action> breadthSearch(PlanningProblem problem){
         Map<State,State> father = new HashMap<State,State>();
-        Map<State,Action> plan = new HashMap<State,Action>();
-        List<State> closed = new ArrayList<State>();
-        Queue<State> open = new ArrayDeque<State>();
+        Map<State,Action> plan  = new HashMap<State,Action>();
+        List<State> closed      = new ArrayList<State>();
+        Queue<State> open       = new ArrayDeque<State>();
         
         open.add(problem.state_init);
         father.put(problem.state_init, null);
