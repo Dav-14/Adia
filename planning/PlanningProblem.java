@@ -64,12 +64,15 @@ public class PlanningProblem {
         while( !open.isEmpty() ){
             State state = open.remove();
             closed.add(state);
+
             for(Action act : problem.possible_actions){
                 if( state.is_applicable(act) ){
                     State next = state.apply(act);
+                    
                     if( !closed.contains(next) && !open.contains(next) ){
                         father.put(next, state);
                         plan.put(next, act);
+                        
                         if( next.satisfies(problem.state_goal) ){
                             return getBreadthSearchPlan(father, plan, next);
                         }
@@ -85,9 +88,11 @@ public class PlanningProblem {
 
     public Stack<Action> getBreadthSearchPlan(Map<State,State> father, Map<State,Action> actions, State goal){
         Stack<Action> plan_d_action = new Stack<>();
+        
         while( !(goal == null) ){
             plan_d_action.push(actions.get(goal));
             goal = father.get(goal);
+        
         }
         return plan_d_action;
     }
