@@ -1,4 +1,4 @@
-/* package datamining;
+package datamining;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -18,7 +18,7 @@ public class DBReader {
     public DBReader(Set<Variable> variables) {
         this.variables = variables;
     }
-    */
+
     /**
      * Reads a database, that is, a list of instantiations, from a CSV
      * file.
@@ -27,7 +27,7 @@ public class DBReader {
      * as the first line, then one ';'-separated list of values per instance
      * each on its own line
      */
-    /*
+    
      
     public Database importDB (String filename) throws IOException {
         try (BufferedReader reader = new BufferedReader (new FileReader (filename))) {
@@ -70,8 +70,8 @@ public class DBReader {
             instances.add(instance);
             lineNb++;
         }
+        
         return new Database(orderedVariables, instances);
     }
 
 }
-*/

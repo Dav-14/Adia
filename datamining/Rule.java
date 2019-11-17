@@ -16,15 +16,25 @@ public class Rule{
         X=_X;
         Y=_Y;
     }
-
+    
     @Override
     public String toString(){
-        String xTxt = X.stream().map((var) -> var.getName()).reduce("", (a, b) -> {
-            return a + b;
+        String xTxt = X.stream().map((var) -> (var.getName()+"="+var.getDomain().iterator().next()) ).reduce("[", (a, b) -> {
+            if(!a.equals("[")) {
+                return String.format("%s, %s", a, b);
+            } else {
+                return String.format("%s%s", a, b);
+            }
         });
-        String yTxt = Y.stream().map((var) -> var.getName()).reduce("", (a, b) -> {
-            return a + b;
+        xTxt += "]";
+        String yTxt = Y.stream().map((var) -> (var.getName()+"="+var.getDomain().iterator().next())).reduce("[", (a, b) -> {
+            if(!a.equals("[")) {
+                return String.format("%s, %s", a, b);
+            } else {
+                return String.format("%s%s", a, b);
+            }
         });
+        yTxt += "]";
         return String.format("%s --> %s (f: %f, conf: %f)\n", xTxt, yTxt, freq, conf);
     }
 

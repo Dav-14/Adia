@@ -6,71 +6,140 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import representations.Variable;
 
+public class FrequentItemsetMiner {
 
-public class FrequentItemsetMiner{
+    static Map<
+        Map.Entry<  Set<Set<Variable>>,
+                    Variable>,
+        List<Set<Variable>>
+        > cache = new ConcurrentHashMap<>();
+
     BooleanDatabase db;
- /*
- Écrire une classe FrequentItemsetMiner, 
- possédant un attribut de type BooleanDatabase 
- et une méthode frequentItemsets prenant en argument 
- une fréquence minimale, et retournant une Map 
- ayant pour clefs des itemsets (Set<Variable>) 
- et pour valeurs, leurs fréquences
- */
-    public FrequentItemsetMiner(BooleanDatabase _db){
+
+    public FrequentItemsetMiner(BooleanDatabase _db) {
         db = _db;
     }
 
-    public Map<Set<Variable>,Integer> frequentItemsets(int min_freq){
-        Map<Set<Variable>,Integer> frequentItemsets = new HashMap<>();
-        
-        for(Map<Variable, String> transac : db.getTransactions() ) {
-            List<Set<Variable>> patterns = new ArrayList<>();
-            for (Variable var : db.getVars()){
-                if(transac.get(var).equals("1")){   // 
-                    addVarStep(patterns, var);
+    public Map<Set<Variable>, Integer> frequentItemsets(int min_freq) {
+        Map<Set<Variable>, Integer> frequentItemsets = new HashMap<>();
+
+        int i = 0;
+        int total = db.getTransactions().size();
+        for (Map<Variable, String> transac : db.getTransactions()) { // pour chaque transaction (ligne)
+        //db.getTransactions().parallelStream().forEach((transac) -> {
+            Set<Set<Variable>> patterns = new HashSet<>();
+            for (Variable var : db.getVars()) { // pour chaque variable (colonne)
+                if (transac.get(var).equals("1")) { // 
+                        addVarStep(patterns, var);
                 }
             }
-            for(Set<Variable> ite : patterns){
-                int val = frequentItemsets.getOrDefault(ite, 0)+1;
-                frequentItemsets.put(ite,val);
-            }
-        }
-        
-        final List<Set<Variable>> final_keys = new ArrayList<>(frequentItemsets.keySet());
-        List<Set<Variable>> to_delete = new ArrayList<>();
-        for(Set<Variable> key : frequentItemsets.keySet()) {
-            //int index = final_keys.indexOf(key);
-            if(frequentItemsets.get(key) < min_freq) {
-                /*System.out.print("Removing ");
-                for(Variable v : key) {
-                    System.out.print(v.getName());
-                }
+            for (Set<Variable> ite : patterns) {
+                int val = frequentItemsets.getOrDefault(ite, 0) + 1;
+                /*ite.forEach((var) -> {
+                    System.out.print(var.getName() + ",");
+                });
                 System.out.println();*/
-                //frequentItemsets.remove(key);
+                frequentItemsets.put(ite, val);
+            }
+            System.out.println(" transac " + i.get() + " / " + total.get());
+            i.incrementAndGet();
+            
+        }
+
+        Set<Set<Variable>> to_delete = new HashSet<>();
+        for (Set<Variable> key : frequentItemsets.keySet()) {
+            if (frequentItemsets.get(key) < min_freq) {
                 to_delete.add(key);
             }
         }
+
         to_delete.forEach((k) -> {
             frequentItemsets.remove(k);
         });
+        to_delete = null;
+        System.gc();
+
+        // post-traitement des motifs fermés
+        filterClosedPatterns(frequentItemsets);
         return frequentItemsets;
     }
-    // ajoute au pattern les combinaisons de Pattern avec la nouvelle var donnée
-    // A
-    // A, | AB, B
-    // A, AB, B |, AC, ABC, BC, C
-    // ...
-    public static void addVarStep(List<Set<Variable>> pattern, Variable var){
-    
-        for(Set<Variable> subSet : new ArrayList<>(pattern)){
-            Set<Variable> newSet = new HashSet<>(subSet);
-            newSet.add(var);
-            pattern.add(newSet);
+
+    public static void addVarStep(Set<Set<Variable>> pattern, Variable var) {
+        // ajoute au pattern les combinaisons de Pattern avec la nouvelle var donnée
+        // A
+        // A, | AB, B
+        // A, AB, B |, AC, ABC, BC, C
+        // ...
+
+        // associer (pattern, var) -> computed
+
+        List<Set<Variable>> tmp_sets = new ArrayList<>();
+        Map.Entry<Set<Set<Variable>>, Variable> cache_key = Map.entry(pattern, var);
+        if(cache.keySet().contains(cache_key)) {
+            tmp_sets = cache.get(cache_key);
+            pattern.addAll(tmp_sets);
+        } else {
+            
+            for (Set<Variable> subSet : pattern) {
+                Set<Variable> newSet = new HashSet<>(subSet);
+                newSet.add(var);
+
+                tmp_sets.add(newSet);
+                //pattern.add(newSet);
+            }
+            tmp_sets.add(Set.of(var));
+            pattern.addAll(tmp_sets);
+            cache.put(cache_key, tmp_sets);
         }
-        pattern.add(Set.of(var));
     }
+
+    public static void filterClosedPatterns(Map<Set<Variable>, Integer> frequentItemsets) {
+        Set<Set<Variable>> toRemove = new HashSet<>();
+        for (Set<Variable> setX : frequentItemsets.keySet()) {
+            for (Set<Variable> setY : frequentItemsets.keySet()) {
+                // on exclue les comparaion avec soi-meme
+                if (!setX.equals(setY)) {
+                    //on compare les fréquences
+                    if (frequentItemsets.get(setX).equals(frequentItemsets.get(setY))) {
+                        //on verifie l'inclusion de setX dans setY
+                        if (patternIsIncluded(setX, setY)) {
+                            System.out.print("oula--------------------------\nX= ");
+                        for(Variable varX: setX){
+                            System.out.print(varX.getName()+" ");
+                        }
+                        System.out.print("\nY= ");
+                        for(Variable varY: setY){
+                            System.out.print(varY.getName()+" ");
+                        }
+                        System.out.println();
+                            System.out.println("deleted");
+                            toRemove.add(setX);
+                        }
+                    }
+                }
+                
+            }
+        }
+        System.out.println(toRemove.size()+" motifs sur "+ frequentItemsets.size() +" on ete elimines");
+        //elimination des motifs
+        toRemove.forEach((itemSet) -> {
+            frequentItemsets.remove(itemSet);
+        });
+    }
+
+    // verifie si le pattern setX est inclus dans setY
+    public static boolean patternIsIncluded(Set<Variable> setX, Set<Variable> SetY) {
+        for (Variable varX : setX) {
+            if (!SetY.contains(varX)) {
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
