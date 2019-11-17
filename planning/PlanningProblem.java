@@ -21,11 +21,11 @@ public class PlanningProblem {
     }
 
     /**
-     * Trouve un Stack d'Action permettant de d'atteindre le State final du PlanningProblem
+     * Trouve un Stack (une pile) d'Action permettant d'atteindre le State final du PlanningProblem en utilisant la recherche en profondeur
      * @param actual_state
      * @param plan_d_action
      * @param closed
-     * @return un Stack d'Action
+     * @return un Stack (une pile) d'Action
      */
     public Stack<Action> depthSearch(State actual_state, Stack<Action> plan_d_action, List<State> closed){
         if( actual_state.satisfies(this.state_goal) ){
@@ -35,10 +35,12 @@ public class PlanningProblem {
             for(Action act: this.possible_actions){
                 if( actual_state.is_applicable(act) ){
                     State nextState = actual_state.apply(act);
+                    
                     if( !closed.contains(nextState) ){
                         plan_d_action.push(act);
                         closed.add(nextState);
                         Stack<Action> sousPlan = depthSearch(actual_state, plan_d_action, closed);
+                        
                         if( !sousPlan.empty() ){
                             return sousPlan;
                         }
@@ -52,20 +54,24 @@ public class PlanningProblem {
         }
     }
 
-    public Stack<Action> breadthSearch(PlanningProblem problem){
+    /**
+     * Trouve un Stack (une pile) d'Actions permettant d'atteindre le State final du PlanningProblem en utilisant la recherche en largeur
+     * @return un Stack (une pile) d'Actions
+     */
+    public Stack<Action> breadthSearch(){
         Map<State,State> father = new HashMap<State,State>();
         Map<State,Action> plan  = new HashMap<State,Action>();
         List<State> closed      = new ArrayList<State>();
         Queue<State> open       = new ArrayDeque<State>();
         
-        open.add(problem.state_init);
-        father.put(problem.state_init, null);
+        open.add(this.state_init);
+        father.put(this.state_init, null);
 
         while( !open.isEmpty() ){
             State state = open.remove();
             closed.add(state);
 
-            for(Action act : problem.possible_actions){
+            for(Action act : this.possible_actions){
                 if( state.is_applicable(act) ){
                     State next = state.apply(act);
                     
@@ -73,7 +79,7 @@ public class PlanningProblem {
                         father.put(next, state);
                         plan.put(next, act);
                         
-                        if( next.satisfies(problem.state_goal) ){
+                        if( next.satisfies(this.state_goal) ){
                             return getBreadthSearchPlan(father, plan, next);
                         }
                         else{
@@ -86,14 +92,21 @@ public class PlanningProblem {
         return null;
     }
 
-    public Stack<Action> getBreadthSearchPlan(Map<State,State> father, Map<State,Action> actions, State goal){
+    /**
+     * Permet de reconstruire le Stack (la pile) d'action dans le bon ordre
+     * @param father (Map liant un State à son State père)
+     * @param actions (Map liant un State à son Action permettant de l'atteindre)
+     * @param goal (State )
+     * @return un Stack (une pile) d'Action
+     */
+    protected static Stack<Action> getBreadthSearchPlan(Map<State,State> father, Map<State,Action> actions, State goal){
         Stack<Action> plan_d_action = new Stack<>();
         
-        while( !(goal == null) ){
+        while( goal != null ){
             plan_d_action.push(actions.get(goal));
-            goal = father.get(goal);
-        
+            goal = father.get(goal);  
         }
+        
         return plan_d_action;
     }
 }
