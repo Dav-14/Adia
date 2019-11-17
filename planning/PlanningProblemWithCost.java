@@ -1,7 +1,6 @@
 package planning;
 
 import java.util.List;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Stack;
 import java.util.Map;
@@ -9,14 +8,19 @@ import java.util.Set;
 import java.util.HashSet;
 
 public class PlanningProblemWithCost extends PlanningProblem{
-    private Map<Action,Integer> cost;
+    protected Map<Action,Integer> cost;
 
     public PlanningProblemWithCost(State ini, State goal, List<Action> act, Map<Action,Integer> cost){
         super(ini, goal, act);
         this.cost = cost;
     }
 
-
+    /**
+     * Trouve le State ayant la plus petite distance parmis les States du paramètres open
+     * @param distance (Map indiquant la distance de chaque State)
+     * @param open (Set contenant les States à trouver)
+     * @return un State
+     */
     protected static State searchStateDistanceMin(Map<State,Integer> distance, Set<State> open){
         State state_smallest_distance = null;
         int distanceMin = Integer.MAX_VALUE;
@@ -31,6 +35,10 @@ public class PlanningProblemWithCost extends PlanningProblem{
         return state_smallest_distance;
     }
 
+    /**
+     * Trouve un Stack (une pile) d'action permettant de passer de l'état initial à l'état final d'un problème en utilisant l'algorithme de Dijkstra
+     * @return un Stack (une pile) d'action
+     */
     public Stack<Action> Dijkstra(){
         Map<State,Integer> distance = new HashMap<State,Integer>();
         Map<State,State> father     = new HashMap<State,State>();
@@ -67,10 +75,18 @@ public class PlanningProblemWithCost extends PlanningProblem{
                 }
             }
         }
-        return getDijkstraPlan(father, plan, goals, distance);
+        return reverseStackDijkstra(father, plan, goals, distance);
     }
 
-    protected static Stack<Action> getDijkstraPlan(Map<State,State> father, Map<State,Action> actions, Set<State> goals, Map<State,Integer> distance){
+    /**
+     * Inverse l'ordre d'un Stack (d'une pile)
+     * @param father (Map indiquant le State père de chaque State)
+     * @param actions (Map indiquant l'Action qui permet d'arriver à tel State)
+     * @param goals
+     * @param distance (Map indiquant la distance de chaque State)
+     * @return un Stack (une pile)
+     */
+    protected static Stack<Action> reverseStackDijkstra(Map<State,State> father, Map<State,Action> actions, Set<State> goals, Map<State,Integer> distance){
         Stack<Action> plan_d_action = new Stack<>();
         State goal = searchStateDistanceMin(distance, goals);
 
