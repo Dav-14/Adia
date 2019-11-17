@@ -50,14 +50,12 @@ public class Database {
                 String val = transac.get(var);
                 if(val.equals("0") || val.equals("1")) {
                     // correct, aucune transformation
-                    vars.add(var);
                     temp.put(var, val);
                 } else {
                     // add non-set values to 0
                     for(String other_val : var.getDomain()) {
                         if(!other_val.equals(val)) {
                             Variable other_var = new Variable(var.getName()+"="+other_val, ref_dom);
-                            vars.add(other_var);
                             temp.put(other_var, "0");
 
                             //System.out.println("set " + other_var.getName() + "to zero");
@@ -65,7 +63,6 @@ public class Database {
                     }
                     String newName = var.getName()+"="+val; // name=value
                     Variable bool_var = new Variable(newName, ref_dom);
-                    vars.add(bool_var);
                     temp.put(bool_var, "1");
                     //System.out.println("set " + bool_var.getName() + "to one");
                         
@@ -74,6 +71,7 @@ public class Database {
             
             bool_transacs.add(temp);
         }
+        vars = new ArrayList<>(bool_transacs.get(0).keySet());
         return new BooleanDatabase(vars, bool_transacs);
     }
 

@@ -19,7 +19,7 @@ public class Rule{
     
     @Override
     public String toString(){
-        String xTxt = X.stream().map((var) -> (var.getName()+"="+var.getDomain().iterator().next()) ).reduce("[", (a, b) -> {
+        String xTxt = X.stream().map((var) -> var.getName() ).reduce("[", (a, b) -> {
             if(!a.equals("[")) {
                 return String.format("%s, %s", a, b);
             } else {
@@ -27,7 +27,7 @@ public class Rule{
             }
         });
         xTxt += "]";
-        String yTxt = Y.stream().map((var) -> (var.getName()+"="+var.getDomain().iterator().next())).reduce("[", (a, b) -> {
+        String yTxt = Y.stream().map((var) -> var.getName() ).reduce("[", (a, b) -> {
             if(!a.equals("[")) {
                 return String.format("%s, %s", a, b);
             } else {

@@ -116,7 +116,7 @@ public class Main {
         
         FrequentItemsetMiner miner = new FrequentItemsetMiner(boolDB);
 
-        Map<Set<Variable>, Integer> res = miner.frequentItemsets(5);
+        Map<Set<Variable>, Integer> res = miner.frequentItemsets(500);
         for (Set<Variable> set : res.keySet()) {
             int freq = res.get(set);
             new HashSet<>(set).forEach((var) -> {
@@ -127,8 +127,8 @@ public class Main {
         }
 
         System.out.println("-----RULES------"); 
-        AssociationRuleMiner testAsso = new AssociationRuleMiner(miner.frequentItemsets(5));
-        testAsso.frequentAssociationRules(5, 0.0f).forEach(System.out::print);
+        AssociationRuleMiner testAsso = new AssociationRuleMiner(miner.frequentItemsets(500));
+        testAsso.frequentAssociationRules(500, 0.9f).forEach(System.out::print);
         
     }
 }

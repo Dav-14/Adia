@@ -46,8 +46,8 @@ public class FrequentItemsetMiner {
                 System.out.println();*/
                 frequentItemsets.put(ite, val);
             }
-            System.out.println(" transac " + i.get() + " / " + total.get());
-            i.incrementAndGet();
+            //System.out.println(" transac " + i + " / " + total);
+            i++;
             
         }
 
@@ -108,21 +108,10 @@ public class FrequentItemsetMiner {
                     if (frequentItemsets.get(setX).equals(frequentItemsets.get(setY))) {
                         //on verifie l'inclusion de setX dans setY
                         if (patternIsIncluded(setX, setY)) {
-                            System.out.print("oula--------------------------\nX= ");
-                        for(Variable varX: setX){
-                            System.out.print(varX.getName()+" ");
-                        }
-                        System.out.print("\nY= ");
-                        for(Variable varY: setY){
-                            System.out.print(varY.getName()+" ");
-                        }
-                        System.out.println();
-                            System.out.println("deleted");
                             toRemove.add(setX);
                         }
                     }
                 }
-                
             }
         }
         System.out.println(toRemove.size()+" motifs sur "+ frequentItemsets.size() +" on ete elimines");
