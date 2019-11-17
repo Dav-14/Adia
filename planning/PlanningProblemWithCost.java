@@ -18,7 +18,7 @@ public class PlanningProblemWithCost extends PlanningProblem{
     /**
      * Trouve le State ayant la plus petite distance parmis les States du paramètres open
      * @param distance (Map indiquant la distance de chaque State)
-     * @param open (Set contenant les States à trouver)
+     * @param open (Set contenant les States à évaluer)
      * @return un State
      */
     protected static State searchStateDistanceMin(Map<State,Integer> distance, Set<State> open){
@@ -96,6 +96,49 @@ public class PlanningProblemWithCost extends PlanningProblem{
         }
 
         return plan_d_action;
+    }
+
+
+    public Stack<Action> aStar(){
+        Map<State,Integer> distance     = new HashMap<State,Integer>();
+        Map<State,State> father         = new HashMap<State,State>();
+        Set<State> open                 = new HashSet<State>();
+        Map<State,Integer> value        = new HashMap<State,Integer>();
+        Map<State,Action> plan_d_action = new HashMap<State,Action>();
+        
+        open.add(this.state_init);
+        father.put(this.state_init,null);
+        distance.put(this.state_init,0);
+        value.put( this.state_init, heuristic(this.state_init) );
+
+        while( !open.isEmpty() ){
+            State state = searchStateDistanceMin(distance, open);
+
+            if( state.satisfies(this.state_goal) ){
+                return getBreadthSearchPlan(father, plan_d_action, state_goal);
+            }
+            else{
+                open.remove(state);
+                for(Action act : this.possible_actions){
+                    if( state.is_applicable(act) ){
+                        State next = state.apply(act);
+                    }
+                    if( !distance.containsKey(next) ){
+                        distance.put(next,Integer.MAX_VALUE);
+                    }
+    
+                    if( distance.get(next) > (distance.get(state) + cost.get(act)) ){
+                        
+                        distance.put( next, (distance.get(state) + cost.get(act)) );
+                        value.put( next, (distance.get(next) + heuristic(next)) );
+                        father.put(next,state);
+                        plan_d_action.put(next,act);
+                        open.add(next);
+                    }
+                }
+            }
+        }
+        return null;
     }
 
 }
