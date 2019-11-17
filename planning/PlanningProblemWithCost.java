@@ -9,10 +9,22 @@ import java.util.HashSet;
 
 public class PlanningProblemWithCost extends PlanningProblem{
     protected Map<Action,Integer> cost;
+    protected int countDijkstra;//compteur pour compter le nombre de noeuds explorés dans le Dijkstra
+    protected int countAStar;//compteur pour compter le nombre de noeuds explorés dans le AStar
 
     public PlanningProblemWithCost(State ini, State goal, List<Action> act, Map<Action,Integer> cost){
         super(ini, goal, act);
         this.cost = cost;
+        this.countDijkstra = 0;
+        this.countAStar = 0;
+    }
+
+    public int getCountDijkstra(){
+        return countDijkstra;
+    }
+
+    public int getCountAStar(){
+        return countAStar;
     }
 
     /**
@@ -60,6 +72,7 @@ public class PlanningProblemWithCost extends PlanningProblem{
 
             for(Action act : this.possible_actions){
                 if( state.is_applicable(act) ){
+                    this.countDijkstra = this.countDijkstra + 1;
                     State next = state.apply(act);
 
                     if( !distance.containsKey(next) ){

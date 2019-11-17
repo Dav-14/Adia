@@ -13,11 +13,30 @@ public class PlanningProblem {
     protected State state_goal;
 
     protected List<Action> possible_actions;
+        
+    protected int countDepth;
+    protected int countDepthIterative;
+    protected int countBreadth;
 
     public PlanningProblem(State ini, State goal, List<Action> act){
         this.state_init = ini;
         this.state_goal = goal;
         this.possible_actions = act;
+        this.countDepth = 0;
+        this.countDepthIterative = 0;
+        this.countBreadth = 0;
+    }
+
+    public int getCountDepth(){
+        return countDepth;
+    }
+
+    public int getCountDepthIterative(){
+        return countDepthIterative;
+    }
+
+    public int getCountBreadth(){
+        return countBreadth;
     }
 
     /**
@@ -28,12 +47,14 @@ public class PlanningProblem {
      * @return un Stack (une pile) d'Action
      */
     public Stack<Action> depthSearch(State actual_state, Stack<Action> plan_d_action, List<State> closed){
+        this.countDepth = 0;
         if( actual_state.satisfies(this.state_goal) ){
             return plan_d_action;
         }
         else{
             for(Action act: this.possible_actions){
                 if( actual_state.is_applicable(act) ){
+                    this.countDepth = this.countDepth + 1;
                     State nextState = actual_state.apply(act);
                     
                     if( !closed.contains(nextState) ){
@@ -73,6 +94,7 @@ public class PlanningProblem {
 
             for(Action act : this.possible_actions){
                 if( state.is_applicable(act) ){
+                    this.countBreadth = this.countBreadth +1;
                     State next = state.apply(act);
                     
                     if( !closed.contains(next) && !open.contains(next) ){
