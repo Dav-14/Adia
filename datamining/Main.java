@@ -138,6 +138,6 @@ public class Main {
         //calcul des regles d'association
         AssociationRuleMiner testAsso = new AssociationRuleMiner(miner.frequentItemsets(500));
         //affichage des regles générées
-        testAsso.frequentAssociationRules(900, 0.9f).forEach(System.out::print);
+        testAsso.frequentAssociationRules(500, 0.9f).forEach(System.out::print);
     }
 }

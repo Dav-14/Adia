@@ -26,7 +26,9 @@ public class Database {
         return reader.importDB(filename);
     }
 
-    //pour debug
+    /** 
+     * Fonction destinée au debug
+     */
     public void printDB(){
         for(Map<Variable, String> transac : this.transactions){
             for(Variable var : transac.keySet()){
@@ -35,40 +37,38 @@ public class Database {
             System.out.println();
         }
     }
-
+    /**
+     * Transforme une base de données non booleene en base de données booléene
+     * @return Une instance de base de données booleene
+     */
     public BooleanDatabase toBooleanDatabase() {
         List<Map<Variable, String>> bool_transacs = new ArrayList<>();
         List<Variable> vars = new ArrayList<>();
         Set<String> ref_dom = Set.of("0", "1"); 
 
-        // Si la valeur n'est pas 0 ou 1
-        // on crée une variable avec un nom "name=value" qu'on met à 1
-        // et on change le domaine
         for(Map<Variable, String> transac : this.transactions) {
             Map<Variable, String> temp = new HashMap<>();
             for(Variable var : transac.keySet()) {
                 String val = transac.get(var);
                 if(val.equals("0") || val.equals("1")) {
-                    // correct, aucune transformation
+                    // aucune transformation, déjà booléen
                     temp.put(var, val);
                 } else {
-                    // add non-set values to 0
+                    // ajoute les valeurs du domaine en fin de nom de variable, puis on met à 1 la variable trouvée dans la transaction
+                    // ex: temperature => basse, moyenne, haute devient
+                    // si temperature=basse en bdd
+                    // temperature=basse => 1, temperature=moyenne => 0, etc...
                     for(String other_val : var.getDomain()) {
                         if(!other_val.equals(val)) {
                             Variable other_var = new Variable(var.getName()+"="+other_val, ref_dom);
                             temp.put(other_var, "0");
-
-                            //System.out.println("set " + other_var.getName() + "to zero");
                         }
                     }
-                    String newName = var.getName()+"="+val; // name=value
+                    String newName = var.getName()+"="+val; 
                     Variable bool_var = new Variable(newName, ref_dom);
                     temp.put(bool_var, "1");
-                    //System.out.println("set " + bool_var.getName() + "to one");
-                        
                 }
             }
-            
             bool_transacs.add(temp);
         }
         vars = new ArrayList<>(bool_transacs.get(0).keySet());
