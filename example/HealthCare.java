@@ -4,6 +4,7 @@ import examples.ExampleFactory;
 import examples.RuleBuilder;
 import planning.Action;
 import planning.PlanningProblem;
+import representations.RestrictedDomain;
 import representations.Rule;
 import representations.Variable;
 
@@ -65,14 +66,14 @@ public class HealthCare {
         Symtoms.remove(var);
 
         RuleBuilder rule = factory.newRuleBuilder()
-                .withPremisse(factory.createRestrictedDomain(var,(String[]) var.getDomain().toArray()))
-                .withConclusion(factory.createRestrictedDomain(var,"none"));
+                .withPremisse(new RestrictedDomain(var, var.getDomain())
+                .withConclusion(factory.createRestrictedDomain(var,"none")));
 
         Symtoms.stream().forEach(d -> rule.withConclusion(factory.createRestrictedDomain(d, (String) d.getDomain().toArray()[rnd.nextInt(d.getDomain().size())])));
 
 
 
-        return null;
+        return new Action(rule.build());
     }
 
     /**

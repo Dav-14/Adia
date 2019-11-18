@@ -133,8 +133,9 @@ public class PlanningProblemWithCost extends PlanningProblem{
             else{
                 open.remove(state);
                 for(Action act : this.possible_actions){
+                    State next = null;
                     if( state.is_applicable(act) ){
-                        State next = state.apply(act);
+                        next = state.apply(act);
                     }
                     if( !distance.containsKey(next) ){
                         distance.put(next,Integer.MAX_VALUE);
