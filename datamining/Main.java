@@ -14,7 +14,8 @@ import representations.Variable;
 public class Main {
     public static void main(String[] args) {
         /*
-        //TEST 1    
+        //TEST 1
+        //Exemple du CM    
         List<Variable> testVars = new ArrayList<>();
         Set<String> boolDom = Set.of("0", "1");
         testVars.add(new Variable("A", boolDom));
@@ -78,21 +79,25 @@ public class Main {
             });
             System.out.print("(" + freq + ")");
             System.out.println();
-
         }
         
 
         AssociationRuleMiner testAsso = new AssociationRuleMiner(res);
         testAsso.frequentAssociationRules(1, 0).forEach(System.out::println);
         */
+
         //TEST 2
-        
+        //Test complet à partir de l'exemple.csv 
+
+
+        //on crée tous les noms de variable
         Set<String> varNames = Set.of("angine", "prise_sirop", "fievre", "oedeme", "fatigue(e)", "toux", "vaccine(e)",
                 "hypothermie", "allergie_sucre", "boutons", "grippe", "virus");
+
         // on prepare les variables pour la lecture de la db
-        // domaines corrects
         Set<String> ref_dom_3 = Set.of("basse", "moyenne", "haute");
         Set<String> ref_dom_2 = Set.of("0", "1");
+        //ajout des domaines aux variables
         Set<Variable> vars = new HashSet<>();
         for (String name : varNames) {
             if (name.equals("fievre") || name.equals("allergie_sucre")) {
@@ -102,21 +107,24 @@ public class Main {
             }
         }
 
+        //chargement de la db à partir du fichier
         Database db = null;
         try {
             db = Database.loadFromFile("./exemple_db.csv", vars);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        
+        //interpretation booleene de db vers boolDB
         BooleanDatabase boolDB = db.toBooleanDatabase();
         db = null;
         System.gc();
         //boolDB.printDB();
-        
-        FrequentItemsetMiner miner = new FrequentItemsetMiner(boolDB);
 
+        //on charge la boolDB dans le miner
+        FrequentItemsetMiner miner = new FrequentItemsetMiner(boolDB);
+        //calcul des frequent itemsets 
         Map<Set<Variable>, Integer> res = miner.frequentItemsets(500);
+        //affichage des frequent itemsets
         for (Set<Variable> set : res.keySet()) {
             int freq = res.get(set);
             new HashSet<>(set).forEach((var) -> {
@@ -126,9 +134,10 @@ public class Main {
             System.out.println();
         }
 
-        System.out.println("-----RULES------"); 
+        System.out.println("-----RULES------");
+        //calcul des regles d'association
         AssociationRuleMiner testAsso = new AssociationRuleMiner(miner.frequentItemsets(500));
-        testAsso.frequentAssociationRules(500, 0.9f).forEach(System.out::print);
-        
+        //affichage des regles générées
+        testAsso.frequentAssociationRules(900, 0.9f).forEach(System.out::print);
     }
 }

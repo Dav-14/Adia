@@ -4,19 +4,20 @@ import java.util.Set;
 
 import representations.Variable;
 
-
-
+/** Permet de representer une rule avec sa fréquence et sa confiance */
 public class Rule{
     Set<Variable> X;
     Set<Variable> Y;
     private float freq = 1.0f;
     private float conf = 0.0f;
-
+    /**
+     * initialisation de la partie gauche et droite
+     */
     public Rule(Set<Variable> _X, Set<Variable> _Y){
         X=_X;
         Y=_Y;
     }
-    
+    //Formate la rule en une string comprehensible
     @Override
     public String toString(){
         String xTxt = X.stream().map((var) -> var.getName() ).reduce("[", (a, b) -> {
@@ -65,10 +66,9 @@ public class Rule{
     public float getConf(){
         return conf;
     }
-
+    //verifie l'egalité de X et Y de deux rules 
     @Override
     public boolean equals(Object obj){
-
         if(obj != null && obj instanceof  Rule) {
             Rule o = (Rule)obj;
 
