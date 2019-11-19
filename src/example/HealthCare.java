@@ -55,7 +55,7 @@ public class HealthCare {
     private static Action SYRUP_BUTTON_MEDIUM = new Action(new HashSet(Arrays.asList(SYRUP_BUTTON_MEDIUM_r)));
     private static Action SYRUP_BUTTON_LOW = new Action(new HashSet(Arrays.asList(SYRUP_BUTTON_LOW_r)));
 
-
+    private static Action SYRUP_BUTTON = new Action(SYRUP_BUTTON_HIGH_r,SYRUP_BUTTON_MEDIUM_r,SYRUP_BUTTON_LOW_r);
 
     public static Action HEALOMAX(){
         RuleBuilder fact = factory.newRuleBuilder();
