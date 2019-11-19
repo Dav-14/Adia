@@ -13,9 +13,14 @@ import representations.Variable;
 
 public class Main {
     public static void main(String[] args) {
-        /*
-        //TEST 1
-        //Exemple du CM    
+        test1();
+        test2();
+
+    }
+
+    //Test à partir de l'exemple ABCDE du CM, preuve de fonctionnement du filtre des closed patterns
+    public static void test1(){
+
         List<Variable> testVars = new ArrayList<>();
         Set<String> boolDom = Set.of("0", "1");
         testVars.add(new Variable("A", boolDom));
@@ -66,12 +71,14 @@ public class Main {
         trans6.put(testVars.get(3), "0");
         trans6.put(testVars.get(4), "1");
         trans.add(trans6);
-        
-
-
+        System.out.println("---TEST EXEMPLE CM---");
+        System.out.println("---MOTIFS ELIMINES---");
         FrequentItemsetMiner miner = new FrequentItemsetMiner(new BooleanDatabase(testVars, trans));
         Map<Set<Variable>, Integer> res = miner.frequentItemsets(1);
+
+        //affichage des resultats
         
+        System.out.println("---FRQ ITEMSETS----");
         for (Set<Variable> set : res.keySet()) {
             int freq = res.get(set);
             new HashSet<>(set).forEach((var) -> {
@@ -80,14 +87,14 @@ public class Main {
             System.out.print("(" + freq + ")");
             System.out.println();
         }
-        
-
+        System.out.println("------RULES-------");
         AssociationRuleMiner testAsso = new AssociationRuleMiner(res);
-        testAsso.frequentAssociationRules(1, 0).forEach(System.out::println);
-        */
+        testAsso.frequentAssociationRules(3, 0).forEach(System.out::println);
+    }
 
-        //TEST 2
-        //Test complet avec temps d'execution à partir de l'exemple.csv 
+
+    //Test complet avec temps d'execution à partir de l'exemple.csv
+    public static void test2(){
 
         //début du timer
         long timerStart = System.currentTimeMillis();
@@ -123,17 +130,21 @@ public class Main {
 
         //on charge la boolDB dans le miner
         FrequentItemsetMiner miner = new FrequentItemsetMiner(boolDB);
-        //calcul des frequent itemsets 
+        //calcul des frequent itemsets
+        System.out.println("---TEST EXEMPLE CSV---");
+        System.out.println("---MOTIFS ELIMINES---");
         Map<Set<Variable>, Integer> res = miner.frequentItemsets(500);
         //calcul des regles d'association
+        
         AssociationRuleMiner testAsso = new AssociationRuleMiner(miner.frequentItemsets(500));
         //affichage des regles générées
+        
         List<Rule> frequentRules =  testAsso.frequentAssociationRules(500, 0.9f);
-        //fin du timer(on de compte pas l'affichage)
+        //fin du timer(on ne compte pas l'affichage des resultats)
         long timerEnd = System.currentTimeMillis();
 
         //affichage des resultats
-        System.out.println("-------FRQ ITEMSETS--------");
+        System.out.println("---FRQ ITEMSETS----"); 
         for (Set<Variable> set : res.keySet()) {
             int freq = res.get(set);
             new HashSet<>(set).forEach((var) -> {
@@ -143,7 +154,7 @@ public class Main {
             System.out.println();
         }
 
-        System.out.println("----------RULES-----------");
+        System.out.println("------RULES-------");
         frequentRules.forEach(System.out::print);
 
         System.out.println( "\nTemps d'execution: " + (int)(timerEnd-timerStart)/1000 + "."
