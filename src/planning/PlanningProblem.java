@@ -36,16 +36,28 @@ public class PlanningProblem {
         this.countBreadth = 0;
     }
 
+    public State getStateInit(){
+        return this.state_init;
+    }
+
+    public State getStateGoal(){
+        return this.state_goal;
+    }
+
+    public List<Action> getPossibleActions(){
+        return this.possible_actions;
+    }
+
     public int getCountDepth(){
-        return countDepth;
+        return this.countDepth;
     }
 
     public int getCountDepthIterative(){
-        return countDepthIterative;
+        return this.countDepthIterative;
     }
 
     public int getCountBreadth(){
-        return countBreadth;
+        return this.countBreadth;
     }
 
     /**
