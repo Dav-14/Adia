@@ -25,11 +25,11 @@ public class HealthCare {
     private static Variable COUGH = factory.createVariable("COUGH","high","medium","low","none");
     private static Variable BUTTONS = factory.createVariable("BUTTONS","high","medium","low","none");
 
-    private static List<Variable> getAllDiseases(){
+    private final static List<Variable> getAllDiseases(){
         return new ArrayList<>(Arrays.asList(ANGINA,FLU,POX,PLAGUE));
     }
 
-    private static List<Variable> getAllSymptoms(){
+    private final static List<Variable> getAllSymptoms(){
         return new ArrayList<>(Arrays.asList(FEVER,COUGH,BUTTONS));
     }
 
@@ -70,7 +70,7 @@ public class HealthCare {
      * @return une Action (un médicament)
      */
     private static Action createMedecine(){
-        List<Variable> Symtoms = getAllSymptoms();
+        List<Variable> Symtoms = new ArrayList<>(getAllSymptoms());
         Random rnd = new Random();
         int index = rnd.nextInt(Symtoms.size());
 
@@ -110,38 +110,47 @@ public class HealthCare {
     public static PlanningProblem generateRandomProblem(List<Action> actionsPossibles){
         State st_init = new State();
         State st_fin = new State();
-
         List<Variable> dis = new ArrayList<>(getAllDiseases());
+        List<Variable> sym = new ArrayList<>(getAllSymptoms());
+
+        dis.forEach(d -> {st_init.put(d,"false");st_fin.put(d,"false");});
+        sym.forEach(obj -> {st_init.put(obj,"none");st_fin.put(obj,"none");});
+
+
         Random r1 = new Random();
+        Random r2 = new Random();
+
         int valeurD = r1.nextInt(dis.size());
 
         st_init.put(dis.get(valeurD), "true");
         st_fin.put(dis.get(valeurD), "false");
-        dis.remove(dis.get(valeurD));
 
-        List<Variable> sym = new ArrayList<>(getAllSymptoms());
-        Random r2 = new Random();
-        int valeurSymp1 = r2.nextInt(sym.size()-1) + 1;
-
-        System.out.println(valeurSymp1);
-
+        int nbSymp = r2.nextInt(sym.size()-1)+ 1;
         int symDomSize = sym.get(0).getDomain().size();//Size of domain
-        for(int i =0; i!=valeurSymp1; i++){
+
+
+        for(int i =0; i<nbSymp; i++){
 
             //Variable
             Random r3 = new Random();
-            int valeurSymp2 = r3.nextInt(sym.size());
+            int indexSymp = r3.nextInt(sym.size());
+
             //Domaine
             Random r4 = new Random();
-            int valeurSympNiv = r4.nextInt(symDomSize-1) + 1;// Between 0 to (symDomSize -1)
 
-            st_init.put(sym.get(valeurSymp2),((String) sym.get(valeurSymp2).getDomain().toArray()[valeurSympNiv]));
-            st_fin.put(sym.get(valeurSymp2),"none");
-            sym.remove(valeurSymp2);
+            Variable var = sym.get(indexSymp);
+            Set<String> domain = new HashSet<>(var.getDomain());
+            domain.remove("none");
+
+            int valeurSympNiv = r4.nextInt(domain.size());
+
+            //System.out.println(var + ":" +(String)var.getDomain().toArray()[valeurSympNiv] + " | " + valeurSympNiv);
+
+            st_init.put(var,(String) domain.toArray()[valeurSympNiv]);
+            st_fin.put(var,"none");
+
+            sym.remove(var);
         }
-
-        dis.forEach(d -> {st_init.put(d,"false");st_fin.put(d,"false");});
-        sym.forEach(d -> {st_init.put(d,"none");st_fin.put(d,"none");});
 
         PlanningProblem pb = new PlanningProblem(st_init, st_fin, actionsPossibles);
         return pb;
