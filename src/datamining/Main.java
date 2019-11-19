@@ -87,9 +87,10 @@ public class Main {
         */
 
         //TEST 2
-        //Test complet à partir de l'exemple.csv 
+        //Test complet avec temps d'execution à partir de l'exemple.csv 
 
-
+        //début du timer
+        long timerStart = System.currentTimeMillis();
         //on crée tous les noms de variable
         Set<String> varNames = Set.of("angine", "prise_sirop", "fievre", "oedeme", "fatigue(e)", "toux", "vaccine(e)",
                 "hypothermie", "allergie_sucre", "boutons", "grippe", "virus");
@@ -124,7 +125,15 @@ public class Main {
         FrequentItemsetMiner miner = new FrequentItemsetMiner(boolDB);
         //calcul des frequent itemsets 
         Map<Set<Variable>, Integer> res = miner.frequentItemsets(500);
-        //affichage des frequent itemsets
+        //calcul des regles d'association
+        AssociationRuleMiner testAsso = new AssociationRuleMiner(miner.frequentItemsets(500));
+        //affichage des regles générées
+        List<Rule> frequentRules =  testAsso.frequentAssociationRules(500, 0.9f);
+        //fin du timer(on de compte pas l'affichage)
+        long timerEnd = System.currentTimeMillis();
+
+        //affichage des resultats
+        System.out.println("-------FRQ ITEMSETS--------");
         for (Set<Variable> set : res.keySet()) {
             int freq = res.get(set);
             new HashSet<>(set).forEach((var) -> {
@@ -134,10 +143,10 @@ public class Main {
             System.out.println();
         }
 
-        System.out.println("-----RULES------");
-        //calcul des regles d'association
-        AssociationRuleMiner testAsso = new AssociationRuleMiner(miner.frequentItemsets(500));
-        //affichage des regles générées
-        testAsso.frequentAssociationRules(500, 0.9f).forEach(System.out::print);
+        System.out.println("----------RULES-----------");
+        frequentRules.forEach(System.out::print);
+
+        System.out.println( "\nTemps d'execution: " + (int)(timerEnd-timerStart)/1000 + "."
+                            + (timerEnd-timerStart)%1000 +" secondes");
     }
 }
