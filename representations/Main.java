@@ -20,6 +20,7 @@ public class Main {
                                                                             new RestrictedDomain(fievre, new HashSet<>(List.of("Moyenne", "Haute"))),
                                                                             new RestrictedDomain(hypothermie, new HashSet<>(List.of("Oui")))
         )));
+        
         Map<Variable, String> patient = new HashMap<Variable, String>();
         patient.put(angine, "Oui");
         patient.put(fievre, "Moyenne");

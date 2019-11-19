@@ -20,7 +20,13 @@ public class Database {
         this.variables = _vars;
         this.transactions = instances;
     }
-
+    /**
+     * Lecture d'un fichier par DBReader pour mise en bdd
+     * @param filename le chemin et nom du fichier
+     * @param _vars Les variables presentes dans la bdd (donc la premiere ligne du .csv)
+     * @return Une instance de Database
+     * @throws IOException en cas d'echec de lecture du fichier
+     */
     public static Database loadFromFile(String filename, Set<Variable> _vars) throws IOException {
         DBReader reader = new DBReader(_vars);
         return reader.importDB(filename);

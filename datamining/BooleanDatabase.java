@@ -6,8 +6,9 @@ import java.util.Map;
 import representations.Variable;
 
 public class BooleanDatabase{
-    List<Variable> variables;
-    List<Map<Variable, String>> transactions;
+    List<Variable> variables; //La liste des variables de la database
+    List<Map<Variable, String>> transactions; //La liste des transaction,
+    //une transaction = une ligne de la db donc map de variable->valeur booleenne 
     public BooleanDatabase(List<Variable> vars, List<Map<Variable, String>> trans){
         this.variables = vars;
         this.transactions = trans;
