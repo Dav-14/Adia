@@ -2,4 +2,4 @@
 cd src
 javac -d "../build" main/Main.java
 cd ..
-java -cp build main.Main
+java -cp build main.Main > output.txt

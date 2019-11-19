@@ -1,17 +1,11 @@
 package ppc;
 
-import java.util.HashSet;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 
-import examples.ExampleFactory;
 import examples.ExampleImpl;
-import representations.Variable;
-import ppc.GeneralizedArcConsistency;
 import representations.Constraint;
-import representations.RestrictedDomain;
 
 public class Main {
     public static void main(String[] args) {
