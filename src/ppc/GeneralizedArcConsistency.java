@@ -79,18 +79,6 @@ public class GeneralizedArcConsistency {
 			}
 		}
 		return hasChanged;
-            // si var n'est pas dans le domains donnée, alors erreurs
-            // si oui 
-                // récupérer les valeurs de var dans domains 
-                    //if ( ! GeneralizedArcConsistency.isConsistent(var, value, constraint, domains) ) {
-                        // faites les modification nécéssaire
-                // enlever toutes les valeurs non viables
-        // en cas de changement
-            // appel récusive sur le rest de domains
-        /*    return true;
-        } else 
-			return false;
-		*/
 	}
 	/**
 	 * Decides whether a given value is arc consistent for a given variable wrt a given constraint

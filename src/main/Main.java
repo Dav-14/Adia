@@ -1,7 +1,10 @@
 package main; 
 
 public class Main {
-
+    /**
+     * Execute une batterie de tests sur l'ensemble du fil rouge
+     * @param args
+     */
     public static void execExamples(String[] args) {
         examples.Main.main(args);
     }
