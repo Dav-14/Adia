@@ -87,4 +87,22 @@ public class Rule implements Constraint {
         return isFiltered;
     }*/
 
+    @Override
+    public String toString() {
+        String prem = "";
+        String conc = "";
+
+        for (RestrictedDomain rd: this.premisse) {
+            prem += rd.toString();
+        }
+
+        for (RestrictedDomain rd: this.conclusion) {
+            conc += rd.toString();
+        }
+
+        return "Rule{" +
+                "p=" + prem +
+                ", c=" + conc +
+                '}';
+    }
 }

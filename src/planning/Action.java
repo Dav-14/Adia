@@ -6,11 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Action{
-    protected Set<Rule> rules_list;
+    public Set<Rule> rules_list;
 
     public Action(Set<Rule> rules_list){
-        this.rules_list = rules_list; 
-
+        this.rules_list = rules_list;
     }
 
     public Action(Rule... rules){
@@ -29,5 +28,12 @@ public class Action{
         return this.rules_list;
     }
 
-    
+    @Override
+    public String toString() {
+        String str = "";
+        for (Rule rl: this.rules_list) {
+            str += rl.toString() + "\n";
+        }
+        return (str == "") ? super.toString() : str;
+    }
 }

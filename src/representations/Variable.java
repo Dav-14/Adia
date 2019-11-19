@@ -34,4 +34,12 @@ public class Variable {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "Var{" +
+                "name='" + name + '\'' +
+                ", dom=" + domain +
+                '}';
+    }
 }

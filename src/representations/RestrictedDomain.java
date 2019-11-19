@@ -27,4 +27,12 @@ public class RestrictedDomain {
         }
         return false;
     }
+
+    @Override
+    public String toString() {
+        return "RD{" +
+                "var=" + variable +
+                ", dom=" + domain +
+                '}';
+    }
 }

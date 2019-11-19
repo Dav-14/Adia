@@ -69,10 +69,10 @@ public class HealthCare {
         Symtoms.remove(var);
 
         RuleBuilder rule = factory.newRuleBuilder()
-                .withPremisse(new RestrictedDomain(var, var.getDomain()))
-                .withConclusion(factory.createRestrictedDomain(var,"none"));
+                .addPrem(new RestrictedDomain(var, var.getDomain()))
+                .addConc(factory.createRestrictedDomain(var,"none"));
 
-        Symtoms.stream().forEach(d -> rule.withConclusion(factory.createRestrictedDomain(d, (String) d.getDomain().toArray()[rnd.nextInt(d.getDomain().size())])));
+        Symtoms.stream().forEach(d -> rule.addConc(factory.createRestrictedDomain(d, (String) d.getDomain().toArray()[rnd.nextInt(d.getDomain().size())])));
 
 
 
@@ -84,7 +84,7 @@ public class HealthCare {
      * @param n
      * @return une liste d'Action (liste de médicaments)
      */
-    private static List<Action> createSeveralMedecines(int n){
+    public static List<Action> createSeveralMedecines(int n){
         List<Action> medecineList = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             medecineList.add(createMedecine());

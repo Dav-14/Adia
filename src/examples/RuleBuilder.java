@@ -36,6 +36,16 @@ public class RuleBuilder {
         return this;
     }
 
+    public RuleBuilder addConc(RestrictedDomain... c){
+        this.conc.addAll(Arrays.asList(c));
+        return this;
+    }
+
+    public RuleBuilder addPrem(RestrictedDomain... c){
+        this.prem.addAll(Arrays.asList(c));
+        return this;
+    }
+
     public Rule build() {
         return new Rule(this.prem, this.conc);
     }
