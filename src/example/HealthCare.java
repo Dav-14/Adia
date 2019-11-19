@@ -4,6 +4,7 @@ import examples.ExampleFactory;
 import examples.RuleBuilder;
 import planning.Action;
 import planning.PlanningProblem;
+import planning.State;
 import representations.RestrictedDomain;
 import representations.Rule;
 import representations.Variable;
@@ -18,6 +19,8 @@ public class HealthCare {
     private static Variable FLU = factory.createVariable("FLU","true","false");
     private static Variable POX = factory.createVariable("POX","true","false");
     private static Variable PLAGUE = factory.createVariable("PLAGUE","true","false");
+
+
     private static Variable FEVER = factory.createVariable("FEVER","high","medium","low","none");
     private static Variable COUGH = factory.createVariable("COUGH","high","medium","low","none");
     private static Variable BUTTONS = factory.createVariable("BUTTONS","high","medium","low","none");
@@ -66,8 +69,8 @@ public class HealthCare {
         Symtoms.remove(var);
 
         RuleBuilder rule = factory.newRuleBuilder()
-                .withPremisse(new RestrictedDomain(var, var.getDomain())
-                .withConclusion(factory.createRestrictedDomain(var,"none")));
+                .withPremisse(new RestrictedDomain(var, var.getDomain()))
+                .withConclusion(factory.createRestrictedDomain(var,"none"));
 
         Symtoms.stream().forEach(d -> rule.withConclusion(factory.createRestrictedDomain(d, (String) d.getDomain().toArray()[rnd.nextInt(d.getDomain().size())])));
 
@@ -102,8 +105,8 @@ public class HealthCare {
         Random r1 = new Random();
         int valeurD = r1.nextInt(dis.size());
 
-        st_init.put(dis.get(valeurD), true);
-        st_fin.put(dis.get(valeurD), false);
+        st_init.put(dis.get(valeurD), "true");
+        st_fin.put(dis.get(valeurD), "false");
 
         List<Variable> sym = getAllSymptoms();
         Random r2 = new Random();
@@ -114,7 +117,7 @@ public class HealthCare {
             int valeurSymp2 = r3.nextInt(sym.size());
             Random r4 = new Random();
             int valeurSympNiv = r4.nextInt(4);
-            st_init.put(dis.get(valeurSymp2),((String[]) sym.get(valeurSymp2).getDomain().toArray()).get(valeurSympNiv));
+            st_init.put(dis.get(valeurSymp2),((String) sym.get(valeurSymp2).getDomain().toArray()[valeurSympNiv]));
             st_fin.put(dis.get(valeurSymp2),null);
             sym.remove(valeurSymp2);
         }
