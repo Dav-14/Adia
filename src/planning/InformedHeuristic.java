@@ -27,9 +27,9 @@ public class InformedHeuristic implements IHeuristic {
             switch(var.getName()){
                 case "FEVER":
                     poids = 4;
-                case "medium":
+                case "BUTTONS":
                     poids =  2;
-                case "low":
+                case "COUGH":
                     poids =  1;
                 default:
                     poids =  0;
