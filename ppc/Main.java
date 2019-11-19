@@ -15,29 +15,9 @@ import representations.RestrictedDomain;
 
 public class Main {
     public static void main(String[] args) {
-        
-        Backtracking backtrack = new Backtracking(new HashSet(ExampleImpl.getAllRules().subList(0, 5)));
-        //Backtracking backtrack = new Backtracking(new HashSet<>(ExampleImpl.getAllRules()));
-        /*backtrack.allSolutions().forEach((map) -> {
-                map.forEach((k, v) -> {
-                    System.out.print(k.getName() + " = " + v + " ");
-                });
-                System.out.println();
-            });
-            */
-        System.out.println(backtrack.allSolutions().size());
-
-
-        
+        // Pour chaque rule, execute le backtrack et affiche les assignations valides
         List<Constraint> constraints = new ArrayList<>(ExampleImpl.getAllRules().subList(0, 9));
         for(Constraint c : constraints) {
-            List<RestrictedDomain> rdoms = new ArrayList<>(c.getRDoms());
-            int vals = rdoms.stream().map((rdom) -> {
-                return rdom.getDomain().size();
-            }).reduce(0, (x, y) -> {
-                return x + y;
-            });
-            System.out.println(vals);
             Backtracking bt = new Backtracking(Set.of(c));
             bt.allSolutions().forEach((map) -> {
                 map.forEach((k, v) -> {
@@ -45,8 +25,7 @@ public class Main {
                 });
                 System.out.println();
             });
-            //System.out.println(GeneralizedArcConsistency.enforceArcConsistency(c, rdoms));
-
+            System.out.println("-------");
         }
     }
 }

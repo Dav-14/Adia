@@ -7,18 +7,12 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 public class Backtracking {
     protected Set<Variable> variables;
     protected Set<Constraint>     constraints;
-
-    //protected List<Map<Variable, String>>   solutions;
-
-    protected int sol_index = 0;
 
     public Backtracking(Set<Constraint> consts) {
         this.constraints = consts;
@@ -27,18 +21,12 @@ public class Backtracking {
         this.constraints.stream().forEach((set_c) -> {
             this.variables.addAll(set_c.getScope());
         });
-
-        // debug
-        /*
-        System.out.println("scope: ");
-        this.variables.forEach((v) -> {
-            System.out.print(v.getName() + " ");
-        });
-        System.out.println();
-        */
-        //this.variables.stream().distinct().collect(Collectors.toSet());
     }
 
+    /**
+     * Initie la récursion
+     * @return Liste des assignations valides
+     */
     public Set<Map<Variable, String>> allSolutions() {
         // je commence avec une assignatiation partielle vide
         // je considère que toutes les variables sont non assignées pour l'instant 
@@ -48,10 +36,13 @@ public class Backtracking {
         return res;
     }
 
+    /**
+     * Assigne récursivement les variables , et ajoute l'assignation à acc, si elle satisfait les contraintes
+     * @param partialAss
+     * @param unassVars
+     * @param acc
+     */
     protected void solutions(Map<Variable, String> partialAss, Deque<Variable> unassVars, Set<Map<Variable, String>> acc) {
-
-        //if(unassVars.isEmpty()) { return; }
-        // est-ce l'assignation partielle est complète ? Je ferai quoi si oui ?
         boolean complete = true;
         for(Variable v : this.variables) {
             if(!partialAss.containsKey(v)) {
@@ -59,15 +50,7 @@ public class Backtracking {
                 break;
             }
         }
-        if(complete) {
-            // debug
-            /*
-            System.out.println("found complete assignement:");
-            partialAss.forEach((k, v) -> {
-                System.out.print(k.getName() + " = " + v);
-            });
-            System.out.println("\n");
-            */
+        if(complete) { // est-ce l'assignation partielle est complète ? Je ferai quoi si oui ?
             boolean satisfies = true; 
             for(Constraint c : this.constraints) {
                 if(!c.isSatisfiedBy(partialAss)) {
@@ -75,7 +58,7 @@ public class Backtracking {
                     break;
                 }
             }
-            if(satisfies /*&& !acc.contains(new HashMap<>(partialAss))*/) {
+            if(satisfies) { // si elle satisfait on met la copie dans la liste
                 acc.add(new HashMap<>(partialAss)); // by-copy
             }
         } else { // Sinon, j'ai du travail à faire !
@@ -86,18 +69,13 @@ public class Backtracking {
                 for(String val : v.getDomain()) { // il faudrait vérifier la consistance (filtrage, vérifiabilité, satisfiabilité), 
                     // check les contraintes
                     // filtrage
-                    // et let's go
                     
                     Map<Variable, String> clone_ass = new HashMap<>(partialAss);
                     clone_ass.put(v, val); // 
                     
-                    
                     this.solutions(clone_ass, clone_unassVars, acc); // je peux continuer en faisant les même instrcution
-                
-                    // d'autre valeurs à essayer 
-                }
-                // d'autre variables  à essayer 
-            }
+                } // d'autre valeurs à essayer 
+            } // d'autre variables  à essayer 
         }
     }
 }
