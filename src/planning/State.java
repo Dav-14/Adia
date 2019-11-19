@@ -3,6 +3,7 @@ package planning;
 import representations.*;
 
 import java.util.HashMap;
+import java.util.Objects;
 
 public class State extends HashMap<Variable,String>{
 
@@ -87,5 +88,16 @@ public class State extends HashMap<Variable,String>{
             str += var.toString() + " | " + this.get(var) + "\n";
         }
         return (str == "") ? "State null" : str;
+    }
+
+    @Override
+    public boolean equals(Object o){
+        return super.equals(o);
+    }
+
+
+    @Override
+    public int hashCode(){
+        return Objects.hashCode(this.keySet());
     }
 }

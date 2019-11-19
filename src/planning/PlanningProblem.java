@@ -101,10 +101,10 @@ public class PlanningProblem {
      * @return un Stack (une pile) d'Actions
      */
     public Stack<Action> breadthSearch(){
-        Map<State,State> father = new HashMap<State,State>();
-        Map<State,Action> plan  = new HashMap<State,Action>();
-        List<State> closed      = new ArrayList<State>();
-        Queue<State> open       = new ArrayDeque<State>();
+        Map<State,State> father = new HashMap();
+        Map<State,Action> plan  = new HashMap();
+        List<State> closed      = new ArrayList();
+        Queue<State> open       = new ArrayDeque();
         
         open.add(this.state_init);
         father.put(this.state_init, null);
@@ -116,7 +116,7 @@ public class PlanningProblem {
             for(Action act : this.possible_actions){
                 if( state.is_applicable(act) ){
                     this.countBreadth = this.countBreadth +1;
-                    State next = state.apply(act);
+                    State next = ((State) state.clone()).apply(act);
                     
                     if( !closed.contains(next) && !open.contains(next) ){
                         father.put(next, state);
@@ -147,7 +147,11 @@ public class PlanningProblem {
         
         while( goal != null ){
             plan_d_action.push(actions.get(goal));
-            goal = father.get(goal);  
+            if (!father.isEmpty()){
+                goal = father.remove(goal);
+            }else {
+                goal = null;
+            }
         }
         
         return plan_d_action;

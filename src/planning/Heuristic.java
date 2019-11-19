@@ -4,20 +4,26 @@ import representations.Variable;
 
 public class Heuristic{
 
-    public static int simpleHeuristic(State state){
-        int eval = 0;
-        
+    public static int evalDomain(String str){
         switch(str){
             case "high":
-                heuristic += 3;
+                return 3;
             case "medium":
-                heuristic += 2;
+                return  2;
             case "low":
-                heuristic += 1;
-            case "null":
-                heuristic += 0;
+                return  1;
+            default:
+                return  0;
         }
+    }
 
+
+    public static int simpleHeuristic(State state){
+        int eval = 0;
+
+        for (Variable var: state.keySet()) {
+            eval += evalDomain(state.get(var));
+        }
         return eval;
     }
 
@@ -26,7 +32,7 @@ public class Heuristic{
 
         eval = simpleHeuristic(currentState);
 
-        for()
+        //for()
         
         return eval;
     }
