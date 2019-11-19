@@ -61,14 +61,17 @@ public class Rule implements Constraint {
         // 0 1 = 1
         // 1 0 = 0 // on test ça
         // 1 1 = 1
+        
+        // &&
         boolean ok_p = true;
-        for(RestrictedDomain rd : premisse) {
+        for(RestrictedDomain rd : premisse) { 
             String val = v.get(rd.getVariable());
             if(!rd.getDomain().contains(val)) {
                 ok_p = false; // premisse = 0
                 break;
             }
         }
+        // ||
         boolean ok_c = false;
         for(RestrictedDomain rd : conclusion) {
             String val = v.get(rd.getVariable());
