@@ -7,8 +7,12 @@ import java.util.HashSet;
 import java.util.List;
 
 public class Main {
+    /**
+     * Test des reprensations
+     * @param args arguments cli
+     */
     public static void main(String[] args) {
-        // TODO: tests
+        
         Variable angine     = new Variable("Angine",        new HashSet<>(List.of("Oui", "Non")));
         Variable fievre     = new Variable("Fievre",        new HashSet<>(List.of("Basse", "Moyenne", "Haute")));
         Variable hypothermie= new Variable("Hypothermie",   new HashSet<>(List.of("Oui", "Non")));

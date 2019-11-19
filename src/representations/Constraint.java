@@ -4,6 +4,9 @@ import java.util.Set;
 import java.util.Map;
 import java.util.List;
 
+/**
+ * Interface pour la representation de contraintes
+ */
 public interface Constraint {
     public Set<Variable>    getScope();
     public Set<RestrictedDomain> getRDoms();
