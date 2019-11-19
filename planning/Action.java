@@ -1,27 +1,24 @@
 package planning;
 
-import representations.RestrictedDomain;
 import representations.Rule;
 
 import java.util.Set;
 
-public class Action {
-    protected Rule rule_impl;
+public class Action{
+    protected Set<Rule> rules_list;
 
-    public Action(Set<RestrictedDomain> prem, Set<RestrictedDomain> conc) {
+    public Action(Set<Rule> rules_list){
+        this.rules_list = rules_list; 
 
-        rule_impl = new Rule(prem, conc);
     }
 
-    public Boolean is_applicable(State state) {
-        return null;
+    /**
+     * accesseur de la liste de règle d'une Action
+     * @return un Set<Rule>
+     */
+    public Set<Rule> getRulesList(){
+        return this.rules_list;
     }
 
-    public Boolean satisfies(State state) {
-        return null;
-    }
-
-    public State apply(State state) {
-        return null;
-    }
+    
 }
