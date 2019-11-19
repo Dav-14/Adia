@@ -68,6 +68,7 @@ public class HealthCare {
     /**
      * créer un médicament qui met un symptome à none et les autres symptomes sont modifiés de façon aléatoire
      * @return une Action (un médicament)
+     *
      */
     private static Action createMedecine(){
         List<Variable> Symtoms = new ArrayList<>(getAllSymptoms());
