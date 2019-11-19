@@ -2,6 +2,7 @@ package example;
 
 import planning.Action;
 import planning.PlanningProblem;
+import planning.State;
 import representations.Variable;
 
 import java.util.List;
@@ -14,8 +15,18 @@ public class Main {
         //actionList.forEach(d -> d.rules_list.forEach( obj ->System.out.println(obj)));
         PlanningProblem plan = HealthCare.generateRandomProblem(actionList);
 
-        for (Variable var :plan.getState_init().keySet()) {
-            System.out.println(var.toString() + " | " + plan.getState_init().get(var));
-        }
+        State state = plan.getState_init();
+
+        System.out.println(state);
+
+        HealthCare.getAllSymptoms().forEach(d -> state.put(d, "none"));
+
+
+        state.apply(HealthCare.HEALOMAX());
+
+        System.out.println(state);
+
+
+        System.out.println(HealthCare.HEALOMAX());
     }
 }

@@ -23,19 +23,19 @@ public class HealthCare {
 
     private static Variable FEVER = factory.createVariable("FEVER","high","medium","low","none");
     private static Variable COUGH = factory.createVariable("COUGH","high","medium","low","none");
-    private static Variable BUTTONS = factory.createVariable("BUTTONS","high","medium","low","none");
+    public static Variable BUTTONS = factory.createVariable("BUTTONS","high","medium","low","none");
 
-    private final static List<Variable> getAllDiseases(){
+    public final static List<Variable> getAllDiseases(){
         return new ArrayList<>(Arrays.asList(ANGINA,FLU,POX,PLAGUE));
     }
 
-    private final static List<Variable> getAllSymptoms(){
+    public final static List<Variable> getAllSymptoms(){
         return new ArrayList<>(Arrays.asList(FEVER,COUGH,BUTTONS));
     }
 
 
 
-    private static Rule SYRUP_BUTTON_HIGH_r = factory.newRuleBuilder()
+    public static Rule SYRUP_BUTTON_HIGH_r = factory.newRuleBuilder()
             .withPremisse(factory.createRestrictedDomain(BUTTONS,"high"))
             .withConclusion(factory.createRestrictedDomain(BUTTONS,"medium"))
             .build();

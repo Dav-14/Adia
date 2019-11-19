@@ -15,7 +15,7 @@ public class State extends HashMap<Variable,String>{
      */
     public Boolean satisfies(State partial_state){
         for(Variable var: partial_state.keySet()){
-            if( !( this.containsKey(var) ) || partial_state.get(var).equals(this.get(var)) ){
+            if( !( this.containsKey(var) ) && partial_state.get(var).equals(this.get(var)) ){
                 return false;
             }
         }
@@ -46,11 +46,12 @@ public class State extends HashMap<Variable,String>{
     public Boolean is_applicable(Action action){
         for(Rule rule: action.getRulesList()){
             State rule_precondition = premisseRule_to_State(rule);
-            if(this.satisfies(rule_precondition)){
-                return true;
+            //System.out.println("pre : " + rule_precondition);
+            if(!this.satisfies(rule_precondition)){
+                return false;
             }
         }
-        return false;
+        return true;
     }
     
     /**
@@ -59,21 +60,32 @@ public class State extends HashMap<Variable,String>{
      * @return un nouvel état
      */
     public State apply(Action action){
-        State state2 = this;
         if(this.is_applicable(action)){
             for(Rule rule: action.getRulesList()){
+
                 State rule_precondition = premisseRule_to_State(rule);
                 if(this.satisfies(rule_precondition)){
                     for(RestrictedDomain rd: rule.getConclusion()){
                         Variable var = rd.getVariable();
+
                         for(String valeur: rd.getDomain()){
-                            state2.put(var,valeur);
+
+                            this.put(var,valeur);
                         }
                     }
                 }
             }
         }
-        return state2;
+        return this;
     }
 
+    @Override
+    public String toString() {
+        String str = "";
+
+        for (Variable var:  this.keySet()) {
+            str += var.toString() + " | " + this.get(var) + "\n";
+        }
+        return (str == "") ? "State null" : str;
+    }
 }
