@@ -1,6 +1,4 @@
-build/
+build/*.class
 *.class
-*.csv
 *.txt
 .vscode/
-buildrun.bat

@@ -15,6 +15,9 @@ public class RestrictedDomain {
     public Set<String>  getDomain()  { return this.domain;   }
 
     @Override
+    /** 
+     * Override pour tester l'egalité de deux RestrictedDomains
+     */
     public boolean equals(Object o) {
         if(o != null) {
             if(o instanceof RestrictedDomain) {
