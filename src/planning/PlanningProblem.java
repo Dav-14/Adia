@@ -10,6 +10,15 @@ import java.util.Queue;
 
 public class PlanningProblem {
     protected State state_init;
+
+    public State getState_init() {
+        return state_init;
+    }
+
+    public State getState_goal() {
+        return state_goal;
+    }
+
     protected State state_goal;
 
     protected List<Action> possible_actions;
@@ -130,5 +139,17 @@ public class PlanningProblem {
         }
         
         return plan_d_action;
+    }
+
+    @Override
+    public String toString() {
+        return "PlanningProblem{" +
+                "state_init=" + state_init +
+                ", state_goal=" + state_goal +
+                ", possible_actions=" + possible_actions +
+                ", countDepth=" + countDepth +
+                ", countDepthIterative=" + countDepthIterative +
+                ", countBreadth=" + countBreadth +
+                '}';
     }
 }

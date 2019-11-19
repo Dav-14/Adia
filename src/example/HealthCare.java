@@ -55,6 +55,16 @@ public class HealthCare {
     private static Action SYRUP_BUTTON_MEDIUM = new Action(new HashSet(Arrays.asList(SYRUP_BUTTON_MEDIUM_r)));
     private static Action SYRUP_BUTTON_LOW = new Action(new HashSet(Arrays.asList(SYRUP_BUTTON_LOW_r)));
 
+
+
+    public static Action HEALOMAX(){
+        RuleBuilder fact = factory.newRuleBuilder();
+        getAllSymptoms().forEach(d -> fact.addPrem(factory.createRestrictedDomain(d,"none")));
+        getAllDiseases().forEach(obj -> fact.addConc(factory.createRestrictedDomain(obj,"false")));
+        return new Action(fact.build());
+    }
+
+
     /**
      * créer un médicament qui met un symptome à none et les autres symptomes sont modifiés de façon aléatoire
      * @return une Action (un médicament)
@@ -101,26 +111,37 @@ public class HealthCare {
         State st_init = new State();
         State st_fin = new State();
 
-        List<Variable> dis = getAllDiseases();
+        List<Variable> dis = new ArrayList<>(getAllDiseases());
         Random r1 = new Random();
         int valeurD = r1.nextInt(dis.size());
 
         st_init.put(dis.get(valeurD), "true");
         st_fin.put(dis.get(valeurD), "false");
+        dis.remove(dis.get(valeurD));
 
-        List<Variable> sym = getAllSymptoms();
+        List<Variable> sym = new ArrayList<>(getAllSymptoms());
         Random r2 = new Random();
-        int valeurSymp1 = r2.nextInt(sym.size());
+        int valeurSymp1 = r2.nextInt(sym.size()-1) + 1;
 
-        for(int i =0; i<valeurSymp1; i++){
+        System.out.println(valeurSymp1);
+
+        int symDomSize = sym.get(0).getDomain().size();//Size of domain
+        for(int i =0; i!=valeurSymp1; i++){
+
+            //Variable
             Random r3 = new Random();
             int valeurSymp2 = r3.nextInt(sym.size());
+            //Domaine
             Random r4 = new Random();
-            int valeurSympNiv = r4.nextInt(4);
-            st_init.put(dis.get(valeurSymp2),((String) sym.get(valeurSymp2).getDomain().toArray()[valeurSympNiv]));
-            st_fin.put(dis.get(valeurSymp2),null);
+            int valeurSympNiv = r4.nextInt(symDomSize-1) + 1;// Between 0 to (symDomSize -1)
+
+            st_init.put(sym.get(valeurSymp2),((String) sym.get(valeurSymp2).getDomain().toArray()[valeurSympNiv]));
+            st_fin.put(sym.get(valeurSymp2),"none");
             sym.remove(valeurSymp2);
         }
+
+        dis.forEach(d -> {st_init.put(d,"false");st_fin.put(d,"false");});
+        sym.forEach(d -> {st_init.put(d,"none");st_fin.put(d,"none");});
 
         PlanningProblem pb = new PlanningProblem(st_init, st_fin, actionsPossibles);
         return pb;

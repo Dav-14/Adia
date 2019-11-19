@@ -75,4 +75,5 @@ public class State extends HashMap<Variable,String>{
         }
         return state2;
     }
+
 }
