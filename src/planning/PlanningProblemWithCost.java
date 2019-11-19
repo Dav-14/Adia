@@ -112,7 +112,7 @@ public class PlanningProblemWithCost extends PlanningProblem{
     }
 
 
-    public Stack<Action> aStar(){
+    public Stack<Action> aStar(IHeuristic ih){
         Map<State,Integer> distance     = new HashMap<State,Integer>();
         Map<State,State> father         = new HashMap<State,State>();
         Set<State> open                 = new HashSet<State>();
@@ -122,7 +122,7 @@ public class PlanningProblemWithCost extends PlanningProblem{
         open.add(this.state_init);
         father.put(this.state_init,null);
         distance.put(this.state_init,0);
-        //value.put( this.state_init, heuristic(this.state_init) );
+        value.put( this.state_init, ih.compute(this.state_init) );
 
         while( !open.isEmpty() ){
             State state = searchStateDistanceMin(distance, open);
@@ -144,7 +144,7 @@ public class PlanningProblemWithCost extends PlanningProblem{
                     if( distance.get(next) > (distance.get(state) + cost.get(act)) ){
                         
                         distance.put( next, (distance.get(state) + cost.get(act)) );
-                        value.put( next, (distance.get(next) /**+ heuristic(next)**/) );
+                        value.put( next, (distance.get(next) + ih.compute(next)) );
                         father.put(next,state);
                         plan_d_action.put(next,act);
                         open.add(next);
