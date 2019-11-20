@@ -63,7 +63,7 @@ public class State extends HashMap<Variable,String>{
      * @return un nouvel état
      */
     public State apply(Action action){
-        State clone = (State) this;
+        //State clone = (State) this.clone();
         if(this.is_applicable(action)){
             for(Rule rule: action.getRulesList()){
 
@@ -74,13 +74,13 @@ public class State extends HashMap<Variable,String>{
 
                         for(String valeur: rd.getDomain()){
 
-                            clone.put(var,valeur);
+                            this.put(var,valeur);
                         }
                     }
                 }
             }
         }
-        return clone;
+        return this;
     }
 
     @Override

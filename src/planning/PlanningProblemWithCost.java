@@ -147,6 +147,7 @@ public class PlanningProblemWithCost extends PlanningProblem {
             State state = searchStateDistanceMin(distance, open);
 
             if (state.satisfies(this.state_goal)) {
+                System.out.println("geTbreadthSearchPlan");
                 return getBreadthSearchPlan(father, plan_d_action, state_goal);
             } else {
                 open.remove(state);
@@ -154,6 +155,8 @@ public class PlanningProblemWithCost extends PlanningProblem {
                     State next = null;
                     if (state.is_applicable(act)) {
                         next = state.apply(act);
+                    } else {
+                        continue;
                     }
                     if (!distance.containsKey(next)) {
                         distance.put(next, Integer.MAX_VALUE);

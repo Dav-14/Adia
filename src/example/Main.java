@@ -1,7 +1,10 @@
 package example;
 
 import planning.Action;
+import planning.InformedHeuristic;
 import planning.PlanningProblem;
+import planning.PlanningProblemWithCost;
+import planning.SimpleHeuristic;
 import planning.State;
 import representations.Rule;
 import representations.Variable;
@@ -14,6 +17,7 @@ public class Main {
     public static void main(String[] args) {
         List<Action> actionList = HealthCare.createSeveralMedecines(10);
 
+
         actionList.add(HealthCare.HEALOMAX());
         actionList.add(HealthCare.SYRUP_BUTTON_HIGH);
         actionList.add(HealthCare.SYRUP_BUTTON_LOW);
@@ -22,7 +26,7 @@ public class Main {
 
         //actionList.forEach(d -> System.out.println(d));
         //actionList.forEach(d -> d.rules_list.forEach( obj ->System.out.println(obj)));
-        PlanningProblem plan = HealthCare.generateRandomProblem(actionList);
+        PlanningProblemWithCost plan = HealthCare.generateRandomProblemWithCost(actionList);
 /**
         State state = plan.getState_init();
 
@@ -43,7 +47,8 @@ public class Main {
 
         System.out.println(in);
 
-        List<Action> list = plan.breadthSearch();
+        //List<Action> list = plan.Dijkstra();
+        List<Action> list = plan.aStar(new SimpleHeuristic());
 
         System.out.println("Action list size = " + list.size());
 
