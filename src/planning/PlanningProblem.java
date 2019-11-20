@@ -104,9 +104,6 @@ public class PlanningProblem {
                 if( state.is_applicable(act) ){
                     this.countBreadth = this.countBreadth +1;
                     State next = ((State) state.clone()).apply(act);
-                    next.apply(HealthCare.HEALOMAX());
-
-
                     System.out.println("1");
                     if( !closed.contains(next) && !open.contains(next) ){
                         System.out.println("2");

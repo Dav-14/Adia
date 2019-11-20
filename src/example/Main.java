@@ -14,6 +14,7 @@ public class Main {
     public static void main(String[] args) {
         List<Action> actionList = HealthCare.createSeveralMedecines(10);
 
+        actionList.add(HealthCare.HEALOMAX());
         actionList.add(HealthCare.SYRUP_BUTTON_HIGH);
         actionList.add(HealthCare.SYRUP_BUTTON_LOW);
         actionList.add(HealthCare.SYRUP_FEVER_HIGH);
@@ -51,7 +52,6 @@ public class Main {
         for (Action action: list) {
             System.out.println(action);
             in.apply(action);
-            in.apply(HealthCare.HEALOMAX());
             System.out.println(in);
 
         }
