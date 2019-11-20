@@ -84,12 +84,11 @@ public class Main {
             new HashSet<>(set).forEach((var) -> {
                 System.out.print(var.getName());
             });
-            System.out.print("(" + freq + ")");
-            System.out.println();
+            System.out.println("(" + freq + ")");
         }
         System.out.println("------RULES-------");
         AssociationRuleMiner testAsso = new AssociationRuleMiner(res);
-        testAsso.frequentAssociationRules(3, 0).forEach(System.out::println);
+        testAsso.frequentAssociationRules(3, 0).forEach(System.out::print);
     }
 
 
@@ -157,7 +156,7 @@ public class Main {
         System.out.println("------RULES-------");
         frequentRules.forEach(System.out::print);
 
-        System.out.println( "\nTemps d'execution: " + (int)(timerEnd-timerStart)/1000 + "."
+        System.out.println( "\nTemps d'execution frqitemset+rule du csv: " + (int)(timerEnd-timerStart)/1000 + "."
                             + (timerEnd-timerStart)%1000 +" secondes");
     }
 }
