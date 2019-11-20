@@ -85,9 +85,10 @@ public class HealthCare {
 
         Symtoms.stream().forEach(d -> rule.addConc(factory.createRestrictedDomain(d, (String) d.getDomain().toArray()[rnd.nextInt(d.getDomain().size())])));
 
+        Set<Rule> newActionList = new HashSet<>(HealthCare.HEALOMAX().getRulesList());
+        newActionList.add(rule.build());
 
-
-        return new Action(rule.build());
+        return new Action(newActionList);
     }
 
     /**

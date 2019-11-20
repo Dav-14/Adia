@@ -16,7 +16,7 @@ public class State extends HashMap<Variable,String>{
      */
     public Boolean satisfies(State partial_state){
         for(Variable var: partial_state.keySet()){
-            if( !( this.containsKey(var) ) && partial_state.get(var).equals(this.get(var)) ){
+            if( !( this.containsKey(var) ) || (!partial_state.get(var).equals(this.get(var))) ){
                 return false;
             }
         }
@@ -49,11 +49,11 @@ public class State extends HashMap<Variable,String>{
         for(Rule rule: action.getRulesList()){
             State rule_precondition = premisseRule_to_State(rule);
             //System.out.println("pre : " + rule_precondition);
-            if(!this.satisfies(rule_precondition)){
-                return false;
+            if(this.satisfies(rule_precondition)){
+                return true;
             }
         }
-        return true;
+        return false;
     }
     
     /**
@@ -62,6 +62,7 @@ public class State extends HashMap<Variable,String>{
      * @return un nouvel état
      */
     public State apply(Action action){
+        State clone = (State) this.clone();
         if(this.is_applicable(action)){
             for(Rule rule: action.getRulesList()){
 
@@ -72,13 +73,13 @@ public class State extends HashMap<Variable,String>{
 
                         for(String valeur: rd.getDomain()){
 
-                            this.put(var,valeur);
+                            clone.put(var,valeur);
                         }
                     }
                 }
             }
         }
-        return this;
+        return clone;
     }
 
     @Override
