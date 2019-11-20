@@ -2,6 +2,7 @@ package example;
 
 import planning.Action;
 import planning.PlanningProblem;
+import planning.PlanningProblemWithCost;
 import planning.State;
 import representations.Variable;
 
@@ -15,9 +16,10 @@ public class Main {
         actionList.add(HealthCare.SYRUP_BUTTON_LOW);
         actionList.add(HealthCare.SYRUP_BUTTON_MEDIUM);
 
-        //actionList.forEach(d -> System.out.println(d));
-        //actionList.forEach(d -> d.rules_list.forEach( obj ->System.out.println(obj)));
+        //generation des problemes
         PlanningProblem plan = HealthCare.generateRandomProblem(actionList);
+        PlanningProblemWithCost planWCost = new PlanningProblemWithCost(plan.getStateInit(), plan.getStateGoal(), plan.getPossibleActions());
+
 /**
         State state = plan.getState_init();
 
@@ -35,14 +37,21 @@ public class Main {
  **/
         State in = plan.getState_init();
 
-
         Stack<Action> list = plan.breadthSearch();
         for (Action action: list) {
             in.apply(action);
         }
 
+        //Test de PlanningProblemWithCost
+        State stateWcost = planWCost.getStateInit();
+        System.out.println(stateWcost);
+
+        State initWcost = plan.getState_init();
 
 
-
+        Stack<Action> actionsWcost = planWCost.breadthSearch();
+        for (Action action: actionsWcost) {
+            initWcost.apply(action);
+        }
     }
 }
