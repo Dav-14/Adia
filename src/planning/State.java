@@ -62,7 +62,7 @@ public class State extends HashMap<Variable,String>{
      * @return un nouvel état
      */
     public State apply(Action action){
-        State clone = (State) this.clone();
+        State clone = (State) this;
         if(this.is_applicable(action)){
             for(Rule rule: action.getRulesList()){
 

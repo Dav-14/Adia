@@ -1,12 +1,6 @@
 package planning;
 
-import java.util.List;
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Stack;
-import java.util.Map;
-import java.util.Queue;
+import java.util.*;
 
 public class PlanningProblem {
     protected State state_init;
@@ -91,7 +85,7 @@ public class PlanningProblem {
      * Trouve un Stack (une pile) d'Actions permettant d'atteindre le State final du PlanningProblem en utilisant la recherche en largeur
      * @return un Stack (une pile) d'Actions
      */
-    public Stack<Action> breadthSearch(){
+    public List<Action> breadthSearch(){
         Map<State,State> father = new HashMap();
         Map<State,Action> plan  = new HashMap();
         List<State> closed      = new ArrayList();
@@ -108,12 +102,22 @@ public class PlanningProblem {
                 if( state.is_applicable(act) ){
                     this.countBreadth = this.countBreadth +1;
                     State next = ((State) state.clone()).apply(act);
-                    
+
+                    System.out.println("1");
                     if( !closed.contains(next) && !open.contains(next) ){
+                        System.out.println("2");
                         father.put(next, state);
                         plan.put(next, act);
-                        
+
+                        /**
+                        if (!next.satisfies(this.state_goal)){
+                            System.out.println(next);
+                            System.out.println(this.state_goal);
+                        }**/
+
+
                         if( next.satisfies(this.state_goal) ){
+                            System.out.println("3");
                             return getBreadthSearchPlan(father, plan, next);
                         }
                         else{
@@ -133,20 +137,26 @@ public class PlanningProblem {
      * @param goal (State )
      * @return un Stack (une pile) d'Action
      */
-    protected static Stack<Action> getBreadthSearchPlan(Map<State,State> father, Map<State,Action> actions, State goal){
-        Stack<Action> plan_d_action = new Stack<>();
+    protected static List<Action> getBreadthSearchPlan(Map<State,State> father, Map<State,Action> actions, State goal){
+        List<Action> list = new ArrayList();
+        //System.out.println("Action size : " + actions.size());
+        //System.out.println("Father size : " + father.size());
 
 
         while( goal != null ){
-            plan_d_action.push(actions.get(goal));
-            if (!father.isEmpty()){
-                goal = father.remove(goal);
-            }else {
-                break;
+            //System.out.println("father goal : " + Boolean.toString(father.get(goal) != null));
+            //System.out.println("Actions goal : " + Boolean.toString(actions.get(goal) != null));
+
+            if (father.containsKey(goal) && actions.get(father.get(goal)) != null) {
+                list.add(actions.get(goal));
+                goal = father.get(goal);
+                if (goal == null) System.out.println("NULL");
+            }
+            else {
+                return list;
             }
         }
-        
-        return plan_d_action;
+        return list;
     }
 
     @Override

@@ -51,12 +51,16 @@ public class HealthCare {
             .build();
 
 
+    private static Rule SYRUP_FEVER_HIGH_r = factory.newRuleBuilder()
+            .withPremisse(factory.createRestrictedDomain(FEVER,"high"))
+            .withConclusion(factory.createRestrictedDomain(FEVER,"medium"))
+            .build();
 
-    public static Action SYRUP_BUTTON_HIGH = new Action(new HashSet(Arrays.asList(SYRUP_BUTTON_HIGH_r)));
-    public static Action SYRUP_BUTTON_MEDIUM = new Action(new HashSet(Arrays.asList(SYRUP_BUTTON_MEDIUM_r)));
-    public static Action SYRUP_BUTTON_LOW = new Action(new HashSet(Arrays.asList(SYRUP_BUTTON_LOW_r)));
+    private static Rule SYRUP_FEVER_LOW_r = factory.newRuleBuilder()
+            .withPremisse(factory.createRestrictedDomain(FEVER,"low"))
+            .withConclusion(factory.createRestrictedDomain(FEVER,"none"))
+            .build();
 
-    private static Action SYRUP_BUTTON = new Action(SYRUP_BUTTON_HIGH_r,SYRUP_BUTTON_MEDIUM_r,SYRUP_BUTTON_LOW_r);
 
     public static Action HEALOMAX(){
         RuleBuilder fact = factory.newRuleBuilder();
@@ -64,6 +68,16 @@ public class HealthCare {
         getAllDiseases().forEach(obj -> fact.addConc(factory.createRestrictedDomain(obj,"false")));
         return new Action(fact.build());
     }
+
+    public static Action SYRUP_BUTTON_HIGH = new Action(new HashSet(Arrays.asList(SYRUP_BUTTON_HIGH_r)));
+    public static Action SYRUP_BUTTON_MEDIUM = new Action(new HashSet(Arrays.asList(SYRUP_BUTTON_MEDIUM_r)));
+    public static Action SYRUP_BUTTON_LOW = new Action(new HashSet(Arrays.asList(SYRUP_BUTTON_LOW_r)));
+
+
+    public static Action SYRUP_FEVER_HIGH = new Action(new HashSet(Arrays.asList(SYRUP_FEVER_HIGH_r)));
+    public static Action SYRUP_FEVER_LOW = new Action(new HashSet(Arrays.asList(SYRUP_FEVER_LOW_r)));
+
+
 
 
     /**
