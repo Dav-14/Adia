@@ -1,5 +1,6 @@
 package planning;
 
+import example.HealthCare;
 import representations.Rule;
 
 import java.util.HashSet;
