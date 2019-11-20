@@ -131,7 +131,7 @@ public class PlanningProblemWithCost extends PlanningProblem {
         return plan_d_action;
     }
 
-    public Stack<Action> aStar(IHeuristic ih) {
+    public List<Action> aStar(IHeuristic ih) {
         Map<State, Integer> distance = new HashMap<State, Integer>();
         Map<State, State> father = new HashMap<State, State>();
         Set<State> open = new HashSet<State>();

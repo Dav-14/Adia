@@ -105,4 +105,9 @@ public class Rule implements Constraint {
                 ", c=" + conc +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object obj){
+        return (obj instanceof Rule) && this.premisse.equals(((Rule) obj).premisse) && this.conclusion.equals(((Rule) obj).conclusion);
+    }
 }
