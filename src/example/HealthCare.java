@@ -4,6 +4,7 @@ import examples.ExampleFactory;
 import examples.RuleBuilder;
 import planning.Action;
 import planning.PlanningProblem;
+import planning.PlanningProblemWithCost;
 import planning.State;
 import representations.RestrictedDomain;
 import representations.Rule;
@@ -157,6 +158,4 @@ public class HealthCare {
         PlanningProblem pb = new PlanningProblem(st_init, st_fin, actionsPossibles);
         return pb;
     }
-
-
 }
