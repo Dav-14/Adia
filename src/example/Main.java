@@ -42,21 +42,6 @@ public class Main {
 
         System.out.println(in);
 
-
-        in.put(HealthCare.BUTTONS,"low");
-
-        System.out.println(in);
-
-        Action newAct = HealthCare.SYRUP_BUTTON_LOW;
-        //HealthCare.HEALOMAX().getRulesList().forEach(d -> newAct.addRule(d));
-
-
-        System.out.println(newAct);
-        in.apply(newAct);
-        in.apply(HealthCare.HEALOMAX());
-        System.out.println(in);
-        /**
-
         List<Action> list = plan.breadthSearch();
 
         System.out.println("Action list size = " + list.size());
@@ -66,10 +51,11 @@ public class Main {
         for (Action action: list) {
             System.out.println(action);
             in.apply(action);
+            in.apply(HealthCare.HEALOMAX());
             System.out.println(in);
 
         }
-        System.out.println(plan.getStateGoal());**/
+        System.out.println(plan.getStateGoal());
 
 
 
