@@ -10,15 +10,6 @@ import java.util.Queue;
 
 public class PlanningProblem {
     protected State state_init;
-
-    public State getState_init() {
-        return state_init;
-    }
-
-    public State getState_goal() {
-        return state_goal;
-    }
-
     protected State state_goal;
 
     protected List<Action> possible_actions;
@@ -144,13 +135,14 @@ public class PlanningProblem {
      */
     protected static Stack<Action> getBreadthSearchPlan(Map<State,State> father, Map<State,Action> actions, State goal){
         Stack<Action> plan_d_action = new Stack<>();
-        
+
+
         while( goal != null ){
             plan_d_action.push(actions.get(goal));
             if (!father.isEmpty()){
                 goal = father.remove(goal);
             }else {
-                goal = null;
+                break;
             }
         }
         

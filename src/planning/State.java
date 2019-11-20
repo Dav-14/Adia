@@ -45,6 +45,7 @@ public class State extends HashMap<Variable,String>{
      * @return un booléen
      */
     public Boolean is_applicable(Action action){
+
         for(Rule rule: action.getRulesList()){
             State rule_precondition = premisseRule_to_State(rule);
             //System.out.println("pre : " + rule_precondition);

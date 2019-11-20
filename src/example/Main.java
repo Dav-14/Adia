@@ -11,6 +11,7 @@ import java.util.Stack;
 public class Main {
     public static void main(String[] args) {
         List<Action> actionList = HealthCare.createSeveralMedecines(12);
+
         actionList.add(HealthCare.SYRUP_BUTTON_HIGH);
         actionList.add(HealthCare.SYRUP_BUTTON_LOW);
         actionList.add(HealthCare.SYRUP_BUTTON_MEDIUM);
@@ -33,14 +34,23 @@ public class Main {
 
         System.out.println(HealthCare.HEALOMAX());
  **/
-        State in = plan.getState_init();
 
+        State in = plan.getStateInit();
+
+        System.out.println(in);
 
         Stack<Action> list = plan.breadthSearch();
+
+        System.out.println("Action list size = " + list.size());
+
         for (Action action: list) {
-            in.apply(action);
+            System.out.println(action);
+            if (action != null) in.apply(action);
         }
 
+        System.out.println(in);
+
+        System.out.println(in.equals(plan.getStateGoal()));
 
 
 
