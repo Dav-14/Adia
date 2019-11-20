@@ -47,8 +47,8 @@ public class Main {
 
         System.out.println(in);
 
-        //List<Action> list = plan.Dijkstra();
-        List<Action> list = plan.aStar(new SimpleHeuristic());
+        List<Action> list = plan.Dijkstra();
+        //List<Action> list = plan.aStar(new SimpleHeuristic());
 
         System.out.println("Action list size = " + list.size());
 

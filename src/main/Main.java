@@ -17,6 +17,9 @@ public class Main {
     public static void execDatamining(String[] args) {
         datamining.Main.main(args);
     }
+    public static void execPlanning(String[] args) {
+        example.Main.main(args);
+    }
     public static void main(String[] args) {
         System.out.println("-----PARTIE EXAMPLES-----");
         execExamples(args);
@@ -26,5 +29,7 @@ public class Main {
         execPPC(args);
         System.out.println("----PARTIE DATAMINING----");
         execDatamining(args);
+        System.out.println("-----PARTIE PLANNING-----");
+        execPlanning(args);
     }
 }
