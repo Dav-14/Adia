@@ -61,6 +61,44 @@ public class HealthCare {
             .withConclusion(factory.createRestrictedDomain(FEVER,"none"))
             .build();
 
+<<<<<<< Updated upstream
+=======
+    private static Rule SYRUP_COUGH_HIGH_r = factory.newRuleBuilder()
+            .withPremisse(factory.createRestrictedDomain(COUGH,"high"))
+            .withConclusion(factory.createRestrictedDomain(COUGH,"medium"))
+            .build();
+    private static Rule SYRUP_COUGH_MEDIUM_r = factory.newRuleBuilder()
+            .withPremisse(factory.createRestrictedDomain(COUGH,"medium"))
+            .withConclusion(factory.createRestrictedDomain(COUGH,"low"))
+            .build();
+
+    private static Rule SYRUP_COUGH_LOW_r = factory.newRuleBuilder()
+            .withPremisse(factory.createRestrictedDomain(COUGH,"low"))
+            .withConclusion(factory.createRestrictedDomain(COUGH,"none"))
+            .build();
+
+    public static Action SYRUP_COUGH_HIGH = new Action(new HashSet(Arrays.asList(SYRUP_COUGH_HIGH_r)));
+    public static Action SYRUP_COUGH_MEDIUM = new Action(new HashSet(Arrays.asList(SYRUP_COUGH_MEDIUM_r)));
+    public static Action SYRUP_COUGH_LOW = new Action(new HashSet(Arrays.asList(SYRUP_COUGH_LOW_r)));
+
+    private static Rule SYRUP_FEVER_HIGH_r = factory.newRuleBuilder()
+            .withPremisse(factory.createRestrictedDomain(FEVER,"high"))
+            .withConclusion(factory.createRestrictedDomain(FEVER,"medium"))
+            .build();
+    private static Rule SYRUP_FEVER_MEDIUM_r = factory.newRuleBuilder()
+            .withPremisse(factory.createRestrictedDomain(FEVER,"medium"))
+            .withConclusion(factory.createRestrictedDomain(FEVER,"low"))
+            .build();
+    
+    private static Rule SYRUP_FEVER_LOW_r = factory.newRuleBuilder()
+            .withPremisse(factory.createRestrictedDomain(FEVER,"low"))
+            .withConclusion(factory.createRestrictedDomain(FEVER,"none"))
+            .build();
+
+    public static Action SYRUP_FEVER_HIGH = new Action(new HashSet(Arrays.asList(SYRUP_FEVER_HIGH_r)));
+    public static Action SYRUP_FEVER_MEDIUM = new Action(new HashSet(Arrays.asList(SYRUP_FEVER_MEDIUM_r)));
+    public static Action SYRUP_FEVER_LOW = new Action(new HashSet(Arrays.asList(SYRUP_FEVER_LOW_r)));
+>>>>>>> Stashed changes
 
     public static Action HEALOMAX(){
         RuleBuilder fact = factory.newRuleBuilder();
